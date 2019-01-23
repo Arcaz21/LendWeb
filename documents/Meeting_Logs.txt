@@ -1,0 +1,15 @@
+1000-1200
+daily - 20
+2 months to pay
+10% every month
+
+
+
+Balance = Amount not paid.
+Daily = Daily Payment
+Absent = Amount Absent this day
+payment = Daily payments
+New Ap = exceeding payment of cusomer when daily payment exceed required payment
+Bal. Ap = Current balance
+Customer ratings = 
+Total collection.
