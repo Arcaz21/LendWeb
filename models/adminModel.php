@@ -2,6 +2,11 @@
 
 class loginModel extends DBconnection {
 
+    function goto($string){
+        header("$string");
+        exit();
+    }
+    
     function escape_string($string){
         return mysqli_real_escape_string($this->conn,$string);
     }

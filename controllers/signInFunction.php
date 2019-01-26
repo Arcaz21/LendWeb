@@ -23,6 +23,8 @@ if(isset($_POST['submit'])){
         }
         if($getuser->role == 'collector'){
             echo "<-COLLECTOR LOG-IN->";
+            $url = "Location: ./views/home.php";
+            $db->goto($url);
         }
     }else{
         print_r("Sign-In Error!");
