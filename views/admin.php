@@ -60,8 +60,8 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="admin.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="users.php"><i class="fa fa-home"></i> Users </a></li>
-                  <li><a href="lendees.php"><i class="fa fa-home"></i> Lendees </a></li>
+                  <li><a href="users.php"><i class="fa fa-users"></i> Users </a></li>
+                  <li><a href="lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
                 </ul>
               </div>
             </div>
