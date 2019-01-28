@@ -56,8 +56,8 @@
                 <h3>General</h3>
                 <ul class="nav side-menu">
                   <li><a href="home.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="list.php"><i class="fa fa-home"></i> Lendee </a></li>
-                  <li><a href="report.php"><i class="fa fa-home"></i> Report </a></li>
+                  <li><a href="list.php"><i class="fa fa-money"></i> Lendees </a></li>
+                  <li><a href="report.php"><i class="fa fa-pie-chart"></i> Report </a></li>
                 </ul>
               </div>
             </div>
@@ -159,6 +159,10 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                    <div class="x_content">
+                    <button type="button" class="btn btn-default"><a href="addlend.php"><i class="fa fa-plus-circle"></i>  Add Lendee </a></button>
+                    <div class="clearfix"></div>
+                    </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
