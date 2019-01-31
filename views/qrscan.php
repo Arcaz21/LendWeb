@@ -18,13 +18,13 @@
     <script type="text/javascript">
       var x = document.getElementById("myAudio"); 
 
-function playAudio() { 
-  x.play(); 
-} 
+      function playAudio() { 
+        x.play(); 
+      } 
 
-function pauseAudio() { 
-  x.pause(); 
-} 
+      function pauseAudio() { 
+        x.pause(); 
+      } 
       let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
       
       scanner.addListener('scan', function (content) {
