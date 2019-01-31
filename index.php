@@ -12,6 +12,7 @@ session_destroy();
 <html lang="en">
   <head>
     <meta name="mobile-web-app-capable" content="yes">
+    <link rel="manifest" href="manifest.json">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">

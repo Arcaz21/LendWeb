@@ -1,9 +1,7 @@
 <?php session_start();  
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
-} 
-print_r($_SESSION['username']);
-print_r("sulod");
+}
 include "../controllers/transactionFucntion.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);

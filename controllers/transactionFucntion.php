@@ -5,6 +5,9 @@ print_r($action);
 
 $tm = new transactionModel();
 
+$user= isset($_REQUEST['user'])?$_REQUEST['user']:NULL;
+print_r($user);
+
 if($action == 'transact'){
     $transaction['fullid']= isset($_REQUEST['fullid'])?$_REQUEST['fullid']:NULL;
     $transcation['amtpayment']= isset($_REQUEST['amtpayment'])?$_REQUEST['amtpayment']:NULL;

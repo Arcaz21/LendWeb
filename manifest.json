@@ -1,0 +1,24 @@
+{
+
+	"author": "LemonPOS",
+	"background_color": "#ffffff",
+	"description": "Lending Managment System",
+	"display": "fullscreen",
+	"icons": [
+  
+	  {
+		"src": "icon-128.png",
+		"sizes": "128x128",
+		"type": "image/png"
+	  }
+  
+	],
+	"manifest_version": 2,
+	"name": "LendWeb!",
+	"orientation": "portrait",
+	"short_name": "LendWeb!",
+	"start_url": "index.php",
+	"theme_color": "#ffffff",
+	"version": "0.1"
+  
+  }

@@ -1,3 +1,11 @@
+<?php session_start();  
+if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
+  header("location: ../index.php");
+} 
+include "../controllers/transactionFucntion.php"; 
+$db = new userModel();
+$data =$db->getuser($_SESSION['username']);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
