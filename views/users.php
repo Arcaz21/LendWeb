@@ -37,6 +37,8 @@
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+    <!-- FAVICON-->
+    <link rel="icon" href="..vendors/img/favicon.png">
   </head>
 
   <body class="nav-md">

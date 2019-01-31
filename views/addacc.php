@@ -1,7 +1,9 @@
 <?php session_start();  
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
-}
+} 
+print_r($_SESSION['username']);
+print_r("sulod");
 include "../controllers/transactionFucntion.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
@@ -16,7 +18,7 @@ $data =$db->getuser($_SESSION['username']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title>Lend Web! | HOME</title>
+    <title>Lend Web! | </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -46,7 +48,7 @@ $data =$db->getuser($_SESSION['username']);
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-
+        
         <?php include "structure/sidemenu.php" ?>
         <?php include "structure/topnav.php" ?>
 
@@ -61,7 +63,7 @@ $data =$db->getuser($_SESSION['username']);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Payment Form</h2>
+                    <h2>Add Account</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -69,33 +71,33 @@ $data =$db->getuser($_SESSION['username']);
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullid"> Full Name / I.D  <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="acc"> Account <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="fullid" name="fullid" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="amtpayment"> Amount of Payment <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="amtpayment" name="amtpayment" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="acc" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="agreement"> Agreement <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                        <input type="checkbox" name="agree[]" id="hobby1" value="agree" data-parsley-mincheck="1" required class="flat" /><span class="required"></span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Select Contract <span class="required">*</span></label>
+                        <div class="col-md-9 col-sm-9 col-xs-12">
+                          <select class="form-control">
+                            <option>Choose option</option>
+                            <option>60 Days</option>
+                            <option>Option two</option>
+                            <option>Option three</option>
+                            <option>Option four</option>
+                          </select>
                         </div>
                       </div>
 
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                        <input hidden="hidden" name="action" value="transact" >
-                          <button type="submit"  class="btn btn-success">Submit</button>
+                          <button class="btn btn-default"><a href="accounts.php"> Cancel </a></button>
+                          <button class="btn btn-default"><a href="addacc.php"> Reset </a></button>
+                          <input hidden="hidden" name="action" value="addmember" >
+                          <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>
 
@@ -128,8 +130,6 @@ $data =$db->getuser($_SESSION['username']);
     <!-- bootstrap-progressbar -->
     <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
-
-
     <script src="../vendors/iCheck/icheck.min.js"></script>
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>

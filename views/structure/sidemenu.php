@@ -23,6 +23,7 @@
                   <li><a href="home.php"><i class="fa fa-home"></i> Home </a></li>
                   <li><a href="list.php"><i class="fa fa-money"></i> Lendees </a></li>
                   <li><a href="report.php"><i class="fa fa-pie-chart"></i> Report </a></li>
+                  <li><a href="accounts.php"><i class="fa fa-envelope"></i> Account </a></li>
                 </ul>
               </div>
             </div>
