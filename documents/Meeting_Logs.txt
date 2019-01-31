@@ -4,7 +4,7 @@ daily - 20
 10% every month
 
 
-
+drp = daily required payment
 Balance = Amount not paid.
 Daily = Daily Payment
 Absent = Amount Absent this day

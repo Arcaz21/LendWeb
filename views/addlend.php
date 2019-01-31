@@ -1,13 +1,24 @@
+<?php session_start();  
+if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
+  header("location: ../index.php");
+} 
+print_r($_SESSION['username']);
+print_r("sulod");
+include "../controllers/transactionFucntion.php"; 
+$db = new userModel();
+$data =$db->getuser($_SESSION['username']);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title>Gentelella Alela! | </title>
+    <title>Lend Web! | </title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -38,7 +49,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-              <a class="site_title"><i class="fa fa-paw"></i> <span>Gentelella Alela!</span></a>
+              <a class="site_title"><i class="fa fa-paw"></i> <span>Lend Web!</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -154,7 +165,7 @@
                   </div>
                   <div class="x_content">
                     <br />
-                    <form id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">First Name <span class="required">*</span>
@@ -182,13 +193,34 @@
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input type="number" id="contact-num" name="contact-num" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
+                      </div>
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="address">Address <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="contact-num">Address <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="address" name="address" required="required" class="form-control col-md-7 col-xs-12">
+                          <input placeholder="Street" type="text" id="contact-num" name="street" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <input placeholder="Barangay" type="text" id="contact-num" name="barangay" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <input placeholder="Provice" type="text" id="contact-num" name="province" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <input placeholder="City" type="text" id="contact-num" name="city" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                        <div class="col-md-6 col-sm-6 col-xs-6">
+                          <input placeholder="zip code" type="text" id="contact-num" name="zcode" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input placeholder="Country" type="text" id="address" name="country" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
                       </div>
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
@@ -203,11 +235,13 @@
                           </div>
                         </div>
                       </div>
+
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-primary" type="button">Cancel</button>
-              <button class="btn btn-primary" type="reset">Reset</button>
+                          <button class="btn btn-primary" type="reset">Reset</button>
+                          <input hidden="hidden" name="action" value="addmember" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>

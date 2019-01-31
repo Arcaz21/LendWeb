@@ -1,4 +1,4 @@
-<?php 
+<?php date_default_timezone_set("Asia/Manila");
 	class DBconnection {
 		protected $conn;
 		function __construct() {

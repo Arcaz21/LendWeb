@@ -1,14 +1,24 @@
-<?php include "controllers/signInFunction.php" ?>
+<?php include "controllers/signInFunction.php";
+if(isset($_SESSION['role']) && ($_SESSION['role'] == "collector")){
+  header('Location:  views/home.php');
+}if(isset($_SESSION['role']) && ($_SESSION['role'] == "admin")){
+  header('Location: views/admin.php');
+}else{
+session_start();
+session_destroy(); 
+}
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>Gentelella Alela! | </title>
+    <title>| LendWeb.co |</title>
 
     <!-- Bootstrap -->
     <link href="vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
