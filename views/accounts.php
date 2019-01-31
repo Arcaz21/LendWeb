@@ -2,12 +2,11 @@
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
 } 
-print_r($_SESSION['username']);
-print_r("sulod");
 include "../controllers/transactionFucntion.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -17,7 +16,7 @@ $data =$db->getuser($_SESSION['username']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <title>DataTables | Gentelella</title>
+    <title>Lend Web! | LENDEES</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -59,7 +58,7 @@ $data =$db->getuser($_SESSION['username']);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>List of Lendees</h2>
+                    <h2>Accounts</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -73,7 +72,6 @@ $data =$db->getuser($_SESSION['username']);
                           <th>Account ID</th>
                           <th>Member ID</th>
                           <th>Balance</th>
-                          <th>Absent</th>
                           <th>Daily Payment</th>
                           <th>Start Date</th>
                           <th>Due Date</th>
@@ -89,7 +87,6 @@ $data =$db->getuser($_SESSION['username']);
                           <td>61</td>
                           <td>2011/04/25</td>
                           <td>$320,800</td>
-                          <td>5421</td>
                         </tr>
                       </tbody>
                     </table>
