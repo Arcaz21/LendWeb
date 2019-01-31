@@ -2,15 +2,11 @@
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
 } 
-<<<<<<< HEAD
-=======
-print_r($_SESSION['username']);
-print_r("sulod");
->>>>>>> 2855081003523191d5f608932f728065b68f0cb7
 include "../controllers/transactionFucntion.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
 ?>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>

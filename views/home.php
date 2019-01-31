@@ -58,6 +58,20 @@ $data =$db->getuser($_SESSION['username']);
 
             <div class="clearfix"></div>
             <div class="row">
+              <!-- qr_scanner -->
+              <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="x_panel">
+                  <div class="x_title">
+                    <h2>Scan Here</h2>
+                    <div class="clearfix"></div>
+                  </div>
+                  <div class="x_content">
+                    <br />
+                  
+                  </div>
+                </div>
+              </div>
+              <!-- end qr_scanner -->
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">

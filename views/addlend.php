@@ -142,8 +142,8 @@ $data =$db->getuser($_SESSION['username']);
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-primary" type="button">Cancel</button>
-                          <button class="btn btn-primary" type="reset">Reset</button>
+                          <button class="btn btn-default"><a href="list.php"> Cancel </a></button>
+                          <button class="btn btn-default"><a href="addlend.php"> Reset </a></button>
                           <input hidden="hidden" name="action" value="addmember" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>

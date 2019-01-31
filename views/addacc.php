@@ -96,7 +96,7 @@ $data =$db->getuser($_SESSION['username']);
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-default"><a href="accounts.php"> Cancel </a></button>
                           <button class="btn btn-default"><a href="addacc.php"> Reset </a></button>
-                          <input hidden="hidden" name="action" value="addmember" >
+                          <input hidden="hidden" name="action" value="addacc" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>
