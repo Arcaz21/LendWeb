@@ -1,4 +1,4 @@
-<?php include "./models/DBconnection.php"; 
+<?php include "../models/DBconnection.php"; 
 
 class loginModel extends DBconnection {
 
