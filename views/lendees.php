@@ -174,7 +174,7 @@ $data =$db->getuser($_SESSION['username']);
             <div class="clearfix"></div>
             <div class="row">
              <!-- list -->
-                          <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Report</h2>

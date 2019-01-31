@@ -17,7 +17,12 @@ $data =$db->getuser($_SESSION['username']);
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
     <title>Lend Web! | HOME</title>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://rawgit.com/schmich/instascan-builds/master/instascan.min.js"></script>
+    <audio id="myAudio">
+    <source src="../resources/success.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+    </audio>
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
     <!-- Font Awesome -->
@@ -58,20 +63,6 @@ $data =$db->getuser($_SESSION['username']);
 
             <div class="clearfix"></div>
             <div class="row">
-              <!-- qr_scanner -->
-              <div class="col-md-12 col-sm-12 col-xs-12">
-                <div class="x_panel">
-                  <div class="x_title">
-                    <h2>Scan Here</h2>
-                    <div class="clearfix"></div>
-                  </div>
-                  <div class="x_content">
-                    <br />
-                  
-                  </div>
-                </div>
-              </div>
-              <!-- end qr_scanner -->
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
@@ -79,6 +70,33 @@ $data =$db->getuser($_SESSION['username']);
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                      <!-- modals -->
+
+                      <!-- Small modal -->
+                      <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bs-example-modal-sm">Scan QR Code</button>
+
+                      <div class="modal fade bs-example-modal-sm" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal-dialog modal-sm">
+                          <div class="modal-content">
+
+                            <div class="modal-header">
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">×</span>
+                              </button>
+                              <h4 class="modal-title" id="myModalLabel2">Place QR Code in the Center</h4>
+                            </div>
+                            <div class="modal-body">
+                            <center>
+                            <video width="300" height="500" id="preview"></video>  
+                            </center>
+                            </div>
+                            <div class="modal-footer">
+                              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+
+                          </div>
+                        </div>
+                      </div>
+                      <!-- /modals -->
                     <br />
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
@@ -86,7 +104,7 @@ $data =$db->getuser($_SESSION['username']);
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fullid"> Full Name / I.D  <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="fullid" name="fullid" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text"  id="yourInputFieldId" name="fullid" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -142,9 +160,37 @@ $data =$db->getuser($_SESSION['username']);
     <!-- bootstrap-progressbar -->
     <script src="../vendors/bootstrap-progressbar/bootstrap-progressbar.min.js"></script>
     <!-- iCheck -->
-
-
     <script src="../vendors/iCheck/icheck.min.js"></script>
+    <!-- qrscanner -->
+    <script type="text/javascript">
+      var x = document.getElementById("myAudio"); 
+
+      function playAudio() { 
+        x.play(); 
+      } 
+
+      function pauseAudio() { 
+        x.pause(); 
+      } 
+      let scanner = new Instascan.Scanner({ video: document.getElementById('preview'), mirror: false });
+      
+      scanner.addListener('scan', function (content) {
+        //alert(content);
+        document.getElementById("yourInputFieldId").value = content;
+        //window.location = "test.php?user="+content;
+        document.getElementById("yourInputFieldId").value = content;
+        x.play(); 
+      });
+      Instascan.Camera.getCameras().then(function (cameras) {
+        if (cameras.length > 0) {
+          scanner.start(cameras[1]);
+        } else {
+          console.error('No cameras found.');
+        }
+      }).catch(function (e) {
+        console.error(e);
+      });
+    </script>
     <!-- bootstrap-daterangepicker -->
     <script src="../vendors/moment/min/moment.min.js"></script>
     <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>
