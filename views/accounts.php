@@ -36,6 +36,8 @@ $data =$db->getuser($_SESSION['username']);
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
+    <!-- FAVICON-->
+    <link rel="icon" href="..vendors/img/favicon.png">
   </head>
 
   <body class="nav-md">
@@ -61,6 +63,10 @@ $data =$db->getuser($_SESSION['username']);
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                    <div class="x_content">
+                    <button type="button" class="btn btn-default"><a href="addacc.php"><i class="fa fa-plus-circle"></i>  Add Account </a></button>
+                    <div class="clearfix"></div>
+                    </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
