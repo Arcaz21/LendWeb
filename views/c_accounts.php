@@ -63,7 +63,7 @@ $data =$db->getuser($_SESSION['username']);
                   </div>
                   <div class="x_content">
                     <div class="x_content">
-                    <button type="button" class="btn btn-default"><a href="addacc.php"><i class="fa fa-plus-circle"></i>  Add Account </a></button>
+                    <button type="button" class="btn btn-default"><a href="c_addacc.php"><i class="fa fa-plus-circle"></i>  Add Account </a></button>
                     <div class="clearfix"></div>
                     </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">

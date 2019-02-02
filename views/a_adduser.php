@@ -17,7 +17,7 @@ $data =$db->getuser($_SESSION['username']);
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	  
+    
     <title>Lend Web! | Add Account</title>
 
     <!-- Bootstrap -->
@@ -63,7 +63,7 @@ $data =$db->getuser($_SESSION['username']);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Add Account</h2>
+                    <h2>Add User</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -71,22 +71,45 @@ $data =$db->getuser($_SESSION['username']);
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="acc"> Account <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uname"> Username <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="acc" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="uname" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12"> Select Contract <span class="required">*</span></label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pswd"> Password <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="pswd" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fname"> First Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="fname" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Last Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="lname" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3"> Select Role <span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-2 col-xs-3">
                           <select class="form-control">
                             <option>Choose option</option>
-                            <option>60 Days</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
+                            <option> Admin </option>
+                            <option> Collector </option>
+                            <option> User </option>
                           </select>
                         </div>
                       </div>
@@ -94,9 +117,9 @@ $data =$db->getuser($_SESSION['username']);
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-default"><a href="accounts.php"> Cancel </a></button>
-                          <button class="btn btn-default"><a href="addacc.php"> Reset </a></button>
-                          <input hidden="hidden" name="action" value="addacc" >
+                          <button class="btn btn-default"><a href="a_users.php"> Cancel </a></button>
+                          <button class="btn btn-default"><a href="a_adduser.php"> Reset </a></button>
+                          <input hidden="hidden" name="action" value="adduser" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>
@@ -154,6 +177,6 @@ $data =$db->getuser($_SESSION['username']);
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.min.js"></script>
-	
+  
   </body>
 </html>

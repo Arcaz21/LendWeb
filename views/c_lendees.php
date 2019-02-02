@@ -63,34 +63,34 @@ $data =$db->getuser($_SESSION['username']);
                   </div>
                   <div class="x_content">
                     <div class="x_content">
-                    <button type="button" class="btn btn-default"><a href="addlend.php"><i class="fa fa-plus-circle"></i>  Add Lendee </a></button>
+                    <button type="button" class="btn btn-default"><a href="c_addlend.php"><i class="fa fa-plus-circle"></i>  Add Lendee </a></button>
                     <div class="clearfix"></div>
                     </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>First name</th>
-                          <th>Last name</th>
-                          <th>Daily</th>
-                          <th>Absent</th>
-                          <th>Payment</th>
-                          <th>Balance</th>
-                          <th>Balance Ap</th>
-                          <th>New Ap</th>
-                          <th>B.A</th>
+                          <th>Member ID</th>
+                          <th>Username</th>
+                          <th>First Name</th>
+                          <th>Last Name</th>
+                          <th>Middle Name</th>
+                          <th>Contact</th>
+                          <th>Address</th>
+                          <th>Rating</th>
+                          <th>Register Date</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Tiger</td>
+                          <td>####</td>
+                          <td>nixon123</td>
                           <td>Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td>
-                          <td>5421</td>
-                          <td>t.nixon@datatables.net</td>
+                          <td>Tiger</td>
+                          <td>M</td>
+                          <td>+63########</td>
+                          <td>Pichon Street, Manila City</td>
+                          <td>5</td>
+                          <td>mm/dd/yyyy</td>
                         </tr>
                       </tbody>
                     </table>

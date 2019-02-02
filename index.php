@@ -1,8 +1,8 @@
 <?php include "controllers/signInFunction.php";
 if(isset($_SESSION['role']) && ($_SESSION['role'] == "collector")){
-  header('Location:  views/home.php');
+  header('Location:  views/c_home.php');
 }if(isset($_SESSION['role']) && ($_SESSION['role'] == "admin")){
-  header('Location: views/admin.php');
+  header('Location: views/a_home.php');
 }else{
 session_start();
 session_destroy(); 

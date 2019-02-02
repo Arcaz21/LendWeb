@@ -18,7 +18,7 @@ $data =$db->getuser($_SESSION['username']);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	  
-    <title>Lend Web! | Add Lendee</title>
+    <title>Lend Web! | Add Account</title>
 
     <!-- Bootstrap -->
     <link href="../vendors/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
@@ -63,7 +63,7 @@ $data =$db->getuser($_SESSION['username']);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>Add Lendee</h2>
+                    <h2>Add Account</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
@@ -71,80 +71,83 @@ $data =$db->getuser($_SESSION['username']);
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">First Name <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fname"> First Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="fname" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="last-name">Last Name <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Last Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="last-name" name="last-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="lname" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <label for="middle-name" class="control-label col-md-3 col-sm-3 col-xs-12">Middle Name / Initial</label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input id="middle-name" class="form-control col-md-7 col-xs-12" type="text" name="middle-name">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="contact-num">Contact Number <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="daily"> Daily <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="number" id="contact-num" name="contact-num" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="daily" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="contact-num">Address <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="absent"> Absent <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input placeholder="Street" type="text" id="contact-num" name="street" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="absent" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                          <input placeholder="Barangay" type="text" id="contact-num" name="barangay" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                          <input placeholder="Provice" type="text" id="contact-num" name="province" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                          <input placeholder="City" type="text" id="contact-num" name="city" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                        <div class="col-md-6 col-sm-6 col-xs-6">
-                          <input placeholder="zip code" type="text" id="contact-num" name="zcode" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="payment"> Payment <span class="required">*</span>
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input placeholder="Country" type="text" id="address" name="country" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="payment" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
+
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Gender</label>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="balance"> Balance <span class="required">*</span>
+                        </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <div id="gender" class="btn-group" data-toggle="buttons">
-                            <label class="btn btn-default" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="male"> &nbsp; Male &nbsp;
-                            </label>
-                            <label class="btn btn-primary" data-toggle-class="btn-primary" data-toggle-passive-class="btn-default">
-                              <input type="radio" name="gender" value="female"> Female
-                            </label>
-                          </div>
+                          <input type="text" id="balance" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bal_ap"> Balance AP <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="bal_ap" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="new_ap"> New AP <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="new_ap" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="b_a"> B.A <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input type="text" id="b_a" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-default"><a href="list.php"> Cancel </a></button>
-                          <button class="btn btn-default"><a href="addlend.php"> Reset </a></button>
-                          <input hidden="hidden" name="action" value="addmember" >
+                          <button class="btn btn-default"><a href="c_home.php"> Cancel </a></button>
+                          <button class="btn btn-default"><a href="c_addmem.php"> Reset </a></button>
+                          <input hidden="hidden" name="action" value="addmem" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>

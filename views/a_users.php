@@ -47,7 +47,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-             <a href="home.php" class="site_title"><img src="../vendors/img/favicon.png" width="50px" height="50px">   Lend Web!</span></a>
+             <a href="a_home.php" class="site_title"><img src="../vendors/img/favicon.png" width="50px" height="50px">   Lend Web!</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -68,9 +68,9 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="admin.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="users.php"><i class="fa fa-users"></i> Users </a></li>
-                  <li><a href="lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
+                  <li><a href="a_home.php"><i class="fa fa-home"></i> Home </a></li>
+                  <li><a href="a_users.php"><i class="fa fa-users"></i> Users </a></li>
+                  <li><a href="a_lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
                 </ul>
               </div>
             </div>
@@ -172,6 +172,10 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                    <div class="x_content">
+                    <button type="button" class="btn btn-default"><a href="a_adduser.php"><i class="fa fa-plus-circle"></i>  Add User </a></button>
+                    <div class="clearfix"></div>
+                    </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
