@@ -172,6 +172,10 @@
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
+                    <div class="x_content">
+                    <button type="button" class="btn btn-default"><a href="c_adduser.php"><i class="fa fa-plus-circle"></i>  Add User </a></button>
+                    <div class="clearfix"></div>
+                    </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
