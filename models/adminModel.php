@@ -34,22 +34,15 @@ class loginModel extends DBconnection {
 
 class adminModel extends DBconnection {
 
-    function addMember($member){
+    function addUser($user){
+        $query = "INSERT INTO `user`(`user_id`, `username`, `password`, `fname`, `lname`, `role`) 
+        VALUES (\"".$user['user_id']."\",\"".$user['username']."\",\"".$user['password']."\",\"".$user['fname']."\",
+        \"".$user['lname']."\",\"".$user['role']."\")";
+    }
+    function removeUser($user){
         $query = "";
     }
-    function deleteMemeber($member){
-        $query = "";
-    }
-    function updateMember($member){
-        $query = "";
-    }
-    function addCollector($collector){
-        $query = "";
-    }
-    function deleteCollector($collector){
-        $query = "";
-    }
-    function updateCollector($collector){
+    function updateUser($users){
         $query = "";
     }
 }

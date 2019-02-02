@@ -86,7 +86,7 @@ $data =$db->getuser($_SESSION['username']);
                             </div>
                             <div class="modal-body">
                             <center>
-                            <video width="300" height="500" id="preview"></video>  
+                            <video width="300" height="500" id="preview"></video>
                             </center>
                             </div>
                             <div class="modal-footer">

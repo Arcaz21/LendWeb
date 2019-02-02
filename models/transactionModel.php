@@ -16,15 +16,14 @@ class transactionModel extends DBconnection {
         
     }
     function addmember($member){
-        $query = "INSERT INTO `member`(`memberID`, `fname`, `lname`, `contact`, `address`, `rating`) 
-        VALUES (\"".$member['memberID']."\",\"".$member['fname']."\",\"".$member['lname']."\",
+        $query = "INSERT INTO `member`(`fname`, `lname`, `contact`, `address`, `rating`) 
+        VALUES (\"".$member['fname']."\",\"".$member['lname']."\",
         \"".$member['contact']."\",\"".$member['address']."\",\"".$member['rating']."\")";
         $result = mysqli_query($this->conn, $query);
 		    if(!$result) {
-				die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
-				return FALSE;
+				return mysqli_error($this->conn);
 			}
-			return TRUE;
+			return '101';
     }
     function checkid($memberID){
         $query = "SELECT * FROM member WHERE `memberID` = $memberID";

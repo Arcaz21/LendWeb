@@ -22,10 +22,7 @@ if($action == 'transact'){
 }
 print_r($action);
 if($action == 'addmember'){
-    $memberID = rand(100,1000);
-    $checkID = $tm->checkid($memberID);
-    
-    $member['memberID']= $memberID;
+
     $member['fname']= isset($_REQUEST['first-name'])?$_REQUEST['first-name']:NULL;
     $member['lname']= isset($_REQUEST['last-name'])?$_REQUEST['last-name']:NULL;
     $member['mname']= isset($_REQUEST['middle-name'])?$_REQUEST['middle-name']:NULL;
@@ -39,12 +36,22 @@ if($action == 'addmember'){
     $member['gender']= isset($_REQUEST['gender'])?$_REQUEST['gender']:NULL;
     $member['address'] = $member['street'].",".$member['barangay'].",".$member['province'].",".$member['city'].",".$member['country']." ".$member['zcode'];
     $member['rating']= "1";
+    $member['memberID']=uniqid();
 
-    $addmember = $tm->addmember($member);
-    if($addmember){
-        echo "MEMBER ADDED";
-        //header("location: ./home.php");
-    }
+    print_r($member);
+    // $addmember = $tm->addmember($member);
+    // while($addmember == '1062'){
+	// 	$member['memberID']=uniqid();
+	// 	$adduser = $db->adduser($id,$name);
+	// 	print_r($adduser);
+	// 	if($adduser == '101'){
+	// 		break;
+	// 	}
+	// }
+    // if($addmember){
+    //     echo "MEMBER ADDED";
+    //     //header("location: ./home.php");
+    // }
 
 }
 ?>

@@ -11,13 +11,15 @@ $member['contact']= isset($_REQUEST['contact'])?$_REQUEST['contact']:NULL;
 $member['address']= isset($_REQUEST['address'])?$_REQUEST['addresss']:NULL;
 $member['address']= isset($_REQUEST['address'])?$_REQUEST['addresss']:NULL;
 
-$collector['username']= isset($_REQUEST['username'])?$_REQUEST['username']:NULL;
-$collector['fname']= isset($_REQUEST['fname'])?$_REQUEST['fname']:NULL;
-$collector['lname']= isset($_REQUEST['lname'])?$_REQUEST['lname']:NULL;
-$collector['role']= isset($_REQUEST['role'])?$_REQUEST['role']:NULL;
+$user['username']= isset($_REQUEST['username'])?$_REQUEST['username']:NULL;
+$user['fname']= isset($_REQUEST['fname'])?$_REQUEST['fname']:NULL;
+$user['lname']= isset($_REQUEST['lname'])?$_REQUEST['lname']:NULL;
+$user['role']= isset($_REQUEST['role'])?$_REQUEST['role']:NULL;
 
 
 if($action == 'addmember'){
+     $memberID = rand(100,1000);
+     $checkID = $tm->checkid($memberID);
      $result = $am->adduser($member);
 }
 
@@ -27,18 +29,6 @@ if($action == 'deletemember'){
 
 if($action == 'updatemember'){
      $result = $am->updateuser($member);
-}
-
-if($action == 'addcollector'){
-     $result = $am->addcollector($collector);
-}
-
-if($action == 'deletecollector'){
-     $result = $am->deletecollector($collector);
-}
-
-if($action == 'updatecollector'){
-     $result = $am->updatecollector($collector);
 }
 
 
