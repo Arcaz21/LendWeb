@@ -67,26 +67,26 @@ $data =$db->getuser($_SESSION['username']);
                         <tr>
                           <th>First name</th>
                           <th>Last name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Age</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
-                          <th>Extn.</th>
-                          <th>E-mail</th>
+                          <th>Daily</th>
+                          <th>Absent</th>
+                          <th>Payment</th>
+                          <th>Balance</th>
+                          <th>Balance Ap</th>
+                          <th>New Ap</th>
+                          <th>B.A</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Tiger</td>
                           <td>Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td>
-                          <td>5421</td>
-                          <td>t.nixon@datatables.net</td>
+                          <td>Tiger</td>
+                          <td>100</td>
+                          <td>3</td>
+                          <td>100</td>
+                          <td>1000</td>
+                          <td>0</td>
+                          <td>0</td>
+                          <td>0</td>
                         </tr>
                       </tbody>
                     </table>
