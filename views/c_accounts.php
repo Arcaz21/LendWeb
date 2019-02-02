@@ -58,26 +58,24 @@ $data =$db->getuser($_SESSION['username']);
               <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
-                    <h2>List of Lendees</h2>
+                    <h2>Accounts</h2>
                     <div class="clearfix"></div>
                   </div>
                   <div class="x_content">
                     <div class="x_content">
-                    <button type="button" class="btn btn-default"><a href="addlend.php"><i class="fa fa-plus-circle"></i>  Add Lendee </a></button>
+                    <button type="button" class="btn btn-default"><a href="c_addacc.php"><i class="fa fa-plus-circle"></i>  Add Account </a></button>
                     <div class="clearfix"></div>
                     </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>First name</th>
-                          <th>Last name</th>
-                          <th>Daily</th>
-                          <th>Absent</th>
-                          <th>Payment</th>
+                          <th>Account ID</th>
+                          <th>Member ID</th>
                           <th>Balance</th>
-                          <th>Balance Ap</th>
-                          <th>New Ap</th>
-                          <th>B.A</th>
+                          <th>Daily Payment</th>
+                          <th>Start Date</th>
+                          <th>Due Date</th>
+                          <th>Status</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -88,9 +86,7 @@ $data =$db->getuser($_SESSION['username']);
                           <td>Edinburgh</td>
                           <td>61</td>
                           <td>2011/04/25</td>
-                          <td>$320,800</td>
-                          <td>5421</td>
-                          <td>t.nixon@datatables.net</td>
+                          <td>$320,800</td> 
                         </tr>
                       </tbody>
                     </table>

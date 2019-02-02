@@ -1,7 +1,16 @@
+<?php session_start();  
+if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
+  header("location: ../index.php");
+} 
+print_r($_SESSION['username']);
+print_r("sulod");
+include "../controllers/transactionFucntion.php"; 
+$db = new userModel();
+$data =$db->getuser($_SESSION['username']);
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <meta name="mobile-web-app-capable" content="yes">
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <!-- Meta, title, CSS, favicons, etc. -->
     <meta charset="utf-8">
@@ -47,7 +56,7 @@
         <div class="col-md-3 left_col">
           <div class="left_col scroll-view">
             <div class="navbar nav_title" style="border: 0;">
-             <a href="home.php" class="site_title"><img src="../vendors/img/favicon.png" width="50px" height="50px">   Lend Web!</span></a>
+              <a href="a_home.php" class="site_title"><img src="../vendors/img/favicon.png" width="50px" height="50px">   Lend Web!</span></a>
             </div>
 
             <div class="clearfix"></div>
@@ -68,9 +77,9 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="admin.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="users.php"><i class="fa fa-users"></i> Users </a></li>
-                  <li><a href="lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
+                  <li><a href="a_home.php"><i class="fa fa-home"></i> Home </a></li>
+                  <li><a href="a_users.php"><i class="fa fa-users"></i> Users </a></li>
+                  <li><a href="a_lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
                 </ul>
               </div>
             </div>
@@ -165,7 +174,7 @@
             <div class="clearfix"></div>
             <div class="row">
              <!-- list -->
-                          <div class="col-md-12 col-sm-12 col-xs-12">
+                <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Report</h2>
