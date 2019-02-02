@@ -94,8 +94,8 @@ $data =$db->getuser($_SESSION['username']);
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-default"><a href="accounts.php"> Cancel </a></button>
-                          <button class="btn btn-default"><a href="addacc.php"> Reset </a></button>
+                          <button class="btn btn-default"><a href="c_accounts.php"> Cancel </a></button>
+                          <button class="btn btn-default"><a href="c_addacc.php"> Reset </a></button>
                           <input hidden="hidden" name="action" value="addacc" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
