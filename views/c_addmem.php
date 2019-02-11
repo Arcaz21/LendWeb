@@ -1,12 +1,34 @@
-<?php session_start();  
+<?php 
+//get the last-modified-date of this very file
+$lastModified=filemtime(__FILE__);
+//get a unique hash of this file (etag)
+$etagFile = md5_file(__FILE__);
+//get the HTTP_IF_MODIFIED_SINCE header if set
+$ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+//get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+$etagHeader=(isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+
+//set last-modified header
+header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+//set etag-header
+header("Etag: $etagFile");
+//make sure caching is turned on
+header('Cache-Control: public');
+
+//check if page has changed. If not, send 304 and exit
+if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader == $etagFile)
+{
+       header("HTTP/1.1 304 Not Modified");
+       exit;
+}
+session_start();  
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
 } 
-print_r($_SESSION['username']);
-print_r("sulod");
-include "../controllers/transactionFucntion.php"; 
+include "../controllers/encodingFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -38,7 +60,12 @@ $data =$db->getuser($_SESSION['username']);
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
-
+    <!-- bootstrap-datetimepicker -->
+    <link href="../vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="../vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <!-- FAVICON-->
@@ -69,12 +96,44 @@ $data =$db->getuser($_SESSION['username']);
                   <div class="x_content">
                     <br />
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
+                    
+                    <div class="form-group">
+                        <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="fname">Record Date<span class="required">*</span>
+                        </label>
+                        <div style ="margin-left: 26%;" class="col-md-3 col-sm-6 col-xs-12 input-group date" id="myDatepicker">
+                            <input placeholder="Date sa papel na e-encode." name="inidate"  required="required"  type="text" class="form-control col-md-6 col-xs-12">
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fname">Start Date<span class="required">*</span>
+                        </label>
+                        <div style ="margin-left: 26%;"class="col-md-3 col-sm-6 col-xs-12 input-group date" id="datetimepicker6">
+                            <input placeholder="Adlaw nga nag sugod ang utang." name="sdate"  required="required"  type="text" class="form-control col-md-6 col-xs-12">
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label  class="control-label col-md-3 col-sm-3 col-xs-12" for="fname">Due Date<span class="required">*</span>
+                        </label>
+                        <div style ="margin-left: 26%;" class="col-md-3 col-sm-6 col-xs-12 input-group date" id="datetimepicker7">
+                            <input placeholder="Adlaw nga ma human ang utang." name="ddate"  required="required"  type="text" class="form-control col-md-6 col-xs-12">
+                            <span class="input-group-addon">
+                               <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+                        </div>
+                      </div>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fname"> First Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="fname" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="fname" type="text" id="fname" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -82,31 +141,54 @@ $data =$db->getuser($_SESSION['username']);
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Last Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="lname" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="lname" type="text" id="lname" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Middle Name <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input name="mname" type="text" id="mname" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Address <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input name="address" type="text" id="address" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Contact # <span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input name="contact" type="number" id="contact" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="payment"> Initial Credit
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input placeholder="Pila una nga gi utang. ex. 1000" name="inipayment" type="text" id="inipayment" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+      
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="daily"> Daily <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="daily" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="dailyP" type="text" id="daily" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
-
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="absent"> Absent <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="payment"> Payment
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="absent" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
-
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="payment"> Payment <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="payment" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="payment" type="text" id="payment" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
@@ -114,33 +196,30 @@ $data =$db->getuser($_SESSION['username']);
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="balance"> Balance <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="balance" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="balance" type="text" id="balance" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bal_ap"> Balance AP <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="bal_ap"> Balance AP 
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="bal_ap" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="advbal" type="text" id="bal_ap" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="new_ap"> New AP <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="new_ap" required="required" class="form-control col-md-7 col-xs-12">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12">Status</label>
+                        <div class="col-md-6 col-sm-9 col-xs-12">
+                          <select name="status" class="form-control">
+                            <option value="uncleared">Uncleared</option>
+                            <option value="cleared">Cleared</option>
+                            <option value="overdue">Overdue</option>
+                          </select>
                         </div>
                       </div>
 
-                      <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="b_a"> B.A <span class="required">*</span>
-                        </label>
-                        <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="b_a" required="required" class="form-control col-md-7 col-xs-12">
-                        </div>
-                      </div>
+                      <input name="encoder" type="hidden" id="bal_ap" required="required" value="<?php echo $data->fname." ".$data->lname ?>">
 
                       <div class="ln_solid"></div>
                       <div class="form-group">
@@ -148,11 +227,12 @@ $data =$db->getuser($_SESSION['username']);
                           <button class="btn btn-default"><a href="c_home.php"> Cancel </a></button>
                           <button class="btn btn-default"><a href="c_addmem.php"> Reset </a></button>
                           <input hidden="hidden" name="action" value="addmem" >
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button name="submit" value="encode" type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>
 
                     </form>
+
                   </div>
                 </div>
               </div>
@@ -169,7 +249,7 @@ $data =$db->getuser($_SESSION['username']);
         <!-- /footer content -->
       </div>
     </div>
-
+    
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
     <!-- Bootstrap -->
@@ -204,7 +284,67 @@ $data =$db->getuser($_SESSION['username']);
     <!-- starrr -->
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="../build/js/custom.min.js"></script>  
+    <!-- PNotify -->
+    <script src="../vendors/pnotify/dist/pnotify.js"></script>
+    <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
+    <?php print_r($_SESSION['script']); ?>
+    <script type="text/javascript">
+      function notifyUser(message) {
+          if(message == "success") {
+              new PNotify({
+                title: 'Adding Success',
+                text: 'Successfully Added Member, Account and Record',
+                type: 'success',
+                styling: 'bootstrap3'
+              });
+          } else {
+              new PNotify({
+                  title: 'Popup Title',
+                  text: 'Whops, you messed up'
+              }); 
+          }
+      }
+    </script>
+    <?php unset($_SESSION['script']); ?>
+    <!-- bootstrap-daterangepicker -->
+    <script src="../vendors/moment/min/moment.min.js"></script>
+    <script src="../vendors/bootstrap-daterangepicker/daterangepicker.js"></script>    
+    <!-- bootstrap-datetimepicker -->    
+    <script src="../vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js"></script>
+    
+    <script>
+      $('#myDatepicker').datetimepicker();
+      
+      $('#myDatepicker2').datetimepicker({
+          format: 'DD.MM.YYYY'
+      });
+      
+      $('#myDatepicker3').datetimepicker({
+          format: 'hh:mm A'
+      });
+      
+      $('#myDatepicker4').datetimepicker({
+          ignoreReadonly: true,
+          allowInputToggle: true
+      });
+
+      $('#datetimepicker6').datetimepicker();
+      
+      $('#datetimepicker7').datetimepicker({
+          useCurrent: false
+      });
+      
+      $("#datetimepicker6").on("dp.change", function(e) {
+          $('#datetimepicker7').data("DateTimePicker").minDate(e.date);
+      });
+      
+      $("#datetimepicker7").on("dp.change", function(e) {
+          $('#datetimepicker6').data("DateTimePicker").maxDate(e.date);
+      });
+    </script>
+   
 	
   </body>
 </html>

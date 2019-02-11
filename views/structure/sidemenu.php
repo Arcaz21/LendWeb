@@ -20,7 +20,7 @@
               <div class="menu_section">
                 <h3>General</h3>
                 <ul class="nav side-menu">
-                  <li><a href="c_home.php"><i class="fa fa-home"></i> Home </a></li>
+                  <li><a href="c_home.php"><i class="fa fa-home"></i> Transact </a></li>
                   <li><a href="c_addmem.php"><i class="fa fa-home"></i> Add Member </a></li>
                   <li><a href="c_lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
                   <li><a href="c_report.php"><i class="fa fa-pie-chart"></i> Report </a></li>

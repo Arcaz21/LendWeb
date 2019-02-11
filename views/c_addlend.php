@@ -1,12 +1,34 @@
-<?php session_start();  
+<?php 
+//get the last-modified-date of this very file
+$lastModified=filemtime(__FILE__);
+//get a unique hash of this file (etag)
+$etagFile = md5_file(__FILE__);
+//get the HTTP_IF_MODIFIED_SINCE header if set
+$ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
+//get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
+$etagHeader=(isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
+
+//set last-modified header
+header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
+//set etag-header
+header("Etag: $etagFile");
+//make sure caching is turned on
+header('Cache-Control: public');
+
+//check if page has changed. If not, send 304 and exit
+if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader == $etagFile)
+{
+       header("HTTP/1.1 304 Not Modified");
+       exit;
+}
+session_start();  
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
 } 
-print_r($_SESSION['username']);
-print_r("sulod");
-include "../controllers/transactionFucntion.php"; 
+include "../controllers/transactionFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -74,7 +96,7 @@ $data =$db->getuser($_SESSION['username']);
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">First Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="first-name" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="first-name" name="first-name" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
@@ -123,6 +145,13 @@ $data =$db->getuser($_SESSION['username']);
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12">
                           <input placeholder="Country" type="text" id="address" name="country" required="required" class="form-control col-md-7 col-xs-12">
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="contact-num">Credit Amount<span class="required">*</span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input placeholder="Pila ang utangon?" type="number" id="amount" name="amount" required="required" class="form-control col-md-7 col-xs-12">
                         </div>
                       </div>
                       <div class="form-group">
