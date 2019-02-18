@@ -4088,11 +4088,7 @@ ul.verticle_bars li {
     background-color: rgba(231, 76, 60, 0.88);
     border-color: rgba(231, 76, 60, 0.88)
 }
-.ui-pnotify.dark .ui-pnotify-container {
-    color: #E9EDEF;
-    background-color: rgba(52, 73, 94, 0.88);
-    border-color: rgba(52, 73, 94, 0.88)
-}
+
 .custom-notifications {
     position: fixed;
     margin: 15px;

@@ -1,34 +1,10 @@
 <?php 
-//get the last-modified-date of this very file
-$lastModified=filemtime(__FILE__);
-//get a unique hash of this file (etag)
-$etagFile = md5_file(__FILE__);
-//get the HTTP_IF_MODIFIED_SINCE header if set
-$ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
-//get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
-$etagHeader=(isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
-
-//set last-modified header
-header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
-//set etag-header
-header("Etag: $etagFile");
-//make sure caching is turned on
-header('Cache-Control: public');
-
-//check if page has changed. If not, send 304 and exit
-if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader == $etagFile)
-{
-       header("HTTP/1.1 304 Not Modified");
-       exit;
-}
-session_start();  
-if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
-  header("location: ../index.php");
-} 
+session_start(); 
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
 include "../controllers/transactionFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
-$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -92,26 +68,24 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                           <th>First name</th>
                           <th>Last name</th>
                           <th>Daily</th>
-                          <th>Absent</th>
                           <th>Payment</th>
                           <th>Balance</th>
-                          <th>Balance Ap</th>
-                          <th>New Ap</th>
-                          <th>B.A</th>
+                          <th>Advance Payment Balance</th>
+                          <th>Record Date</th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php error_reporting(E_ERROR | E_PARSE); foreach ($getrecord as $index => $record):  ?>
                         <tr>
-                          <td>Nixon</td>
-                          <td>Tiger</td>
-                          <td>100</td>
-                          <td>3</td>
-                          <td>100</td>
-                          <td>1000</td>
-                          <td>0</td>
-                          <td>0</td>
-                          <td>0</td>
+                          <td><?php echo $record['fname'] ?></td>
+                          <td><?php echo $record['lname'] ?></td>
+                          <td><?php echo $record['dailyPayment'] ?></td>
+                          <td><?php echo "₱".$record['payment'] ?></td>
+                          <td><?php echo "₱".$record['balance'] ?></td>
+                          <td><?php echo "₱".$record['AccuBal'] ?></td>
+                          <td><?php echo $record['recDate'] ?></td>
                         </tr>
+                        <?php endforeach;?>
                       </tbody>
                     </table>
                   </div>
@@ -158,7 +132,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
     <script src="../vendors/pdfmake/build/vfs_fonts.js"></script>
 
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="../build/js/custom.js"></script>
 
   </body>
 </html>

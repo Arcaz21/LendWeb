@@ -9,14 +9,31 @@ $user= isset($_REQUEST['user'])?$_REQUEST['user']:NULL;
 $submit = isset($_REQUEST['submit'])?$_REQUEST['submit']:NULL;
 
 if($submit == 'pay'){
-    $payment['value'] = isset($_REQUEST['payment'])?$_REQUEST['payment']:NULL;
+
     $payment['memberID'] = isset($_REQUEST['memberID'])?$_REQUEST['memberID']:NULL;
     $record = $tm->getrecord($payment['memberID']);
-    $current = strtotime(date("Y-m-d"));
-    $recdate = strtotime(date_format(new DateTime($record[0]['recDate']),"Y-m-d"));
-     
-    
-
+  //  print_r($record);
+    $transact['accountbalance'] = $record[0]['accountbalance'];
+    $transact['payment'] = isset($_REQUEST['payment'])?$_REQUEST['payment']:NULL;
+    $transact['accubal'] =  $record[0]['AccuBal'];
+    $transact['advbal'] =  $record[0]['AdvBal'];
+    $transact['daily'] =  $record[0]['dailyPayment'];
+    $transact['accID'] = $record[0]['accID'];
+    $transact['recordID']=substr(md5(uniqid()),0,5);
+    $record = $tm->transact($transact);
+    while($record == '1062'){
+        $transact['recordID']=substr(md5(uniqid()),0,5);
+        $record = $tm->transact($transact);
+        print_r($record);
+        if($record == '101'){
+            $_SESSION['script'] = "<script type='text/javascript'>
+        $(document).ready(function(e) {
+            notifyUser('success');
+        });
+        </script>";
+            break;
+        }
+    }
 }
 
 if($action == 'transact'){
@@ -46,6 +63,7 @@ if($action == 'addmember'){
     $member['country']= isset($_REQUEST['country'])?$_REQUEST['country']:NULL;
     $member['gender']= isset($_REQUEST['gender'])?$_REQUEST['gender']:NULL;
     $member['address'] = $member['street'].",".$member['barangay'].",".$member['province'].",".$member['city'].",".$member['country']." ".$member['zcode'];
+    $member['status'] ="initial";
     $member['rating']= "0";
     $member['memberID']=substr(md5(uniqid()),0,5);
     $member['amount'] =isset($_REQUEST['amount'])?$_REQUEST['amount']:NULL;
@@ -64,7 +82,7 @@ if($action == 'addmember'){
     $account = $tm->calculate($member);
     $account['accID']=substr(md5(uniqid()),0,5);
     $account['memberID'] = $member['memberID'];
-    print_r($account);
+    // print_r($account);
     $addaccount = $tm->addaccount($account);
     while($addaccount == '1062'){
         $account['accID']=substr(md5(uniqid()),0,5);
@@ -81,20 +99,22 @@ if($action == 'addmember'){
     $record['AccuBal'] = 0;
     $record['AdvBal'] = 0;
     $record['payment'] = 0;
+    $record['status'] = 'initial';
     $addrecord = $tm->addrecord($record);
     while($addrecord == '1062'){
-        $record['memberID']=substr(md5(uniqid()),0,5);
+        $record['recordID']=substr(md5(uniqid()),0,5);
         $addrecord = $tm->addrecord($record);
         print_r($addrecord);
         if($addrecord == '101'){
             break;
         }
     }
-
-
-    if($addmember){
-       
-    }
+   
+    $_SESSION['script'] = "<script type='text/javascript'>
+    $(document).ready(function(e) {
+        notifyUser('success');
+    });
+    </script>";
 
 }
 
@@ -102,6 +122,9 @@ if($action == 'addmember'){
 
 if($page == 'c_lendees.php' OR 'c_home.php'){
     $getmembers = $tm->getmembers();
+}
+if($page == 'c_report.php'){
+    $getrecord = $tm->getAllrecords();
 }
 
 

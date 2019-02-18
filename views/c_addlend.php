@@ -1,30 +1,5 @@
 <?php 
-//get the last-modified-date of this very file
-$lastModified=filemtime(__FILE__);
-//get a unique hash of this file (etag)
-$etagFile = md5_file(__FILE__);
-//get the HTTP_IF_MODIFIED_SINCE header if set
-$ifModifiedSince=(isset($_SERVER['HTTP_IF_MODIFIED_SINCE']) ? $_SERVER['HTTP_IF_MODIFIED_SINCE'] : false);
-//get the HTTP_IF_NONE_MATCH header if set (etag: unique file hash)
-$etagHeader=(isset($_SERVER['HTTP_IF_NONE_MATCH']) ? trim($_SERVER['HTTP_IF_NONE_MATCH']) : false);
-
-//set last-modified header
-header("Last-Modified: ".gmdate("D, d M Y H:i:s", $lastModified)." GMT");
-//set etag-header
-header("Etag: $etagFile");
-//make sure caching is turned on
-header('Cache-Control: public');
-
-//check if page has changed. If not, send 304 and exit
-if (@strtotime($_SERVER['HTTP_IF_MODIFIED_SINCE'])==$lastModified || $etagHeader == $etagFile)
-{
-       header("HTTP/1.1 304 Not Modified");
-       exit;
-}
 session_start();  
-if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
-  header("location: ../index.php");
-} 
 include "../controllers/transactionFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
@@ -60,6 +35,10 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
     <link href="../vendors/starrr/dist/starrr.css" rel="stylesheet">
     <!-- bootstrap-daterangepicker -->
     <link href="../vendors/bootstrap-daterangepicker/daterangepicker.css" rel="stylesheet">
+    <!-- PNotify -->
+    <link href="../vendors/pnotify/dist/pnotify.css" rel="stylesheet">
+    <link href="../vendors/pnotify/dist/pnotify.buttons.css" rel="stylesheet">
+    <link href="../vendors/pnotify/dist/pnotify.nonblock.css" rel="stylesheet">
 
     <!-- Custom Theme Style -->
     <link href="../build/css/custom.min.css" rel="stylesheet">
@@ -215,6 +194,29 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
     <script src="../vendors/bootstrap-wysiwyg/js/bootstrap-wysiwyg.min.js"></script>
     <script src="../vendors/jquery.hotkeys/jquery.hotkeys.js"></script>
     <script src="../vendors/google-code-prettify/src/prettify.js"></script>
+    <!-- PNotify -->
+    <script src="../vendors/pnotify/dist/pnotify.js"></script>
+    <script src="../vendors/pnotify/dist/pnotify.buttons.js"></script>
+    <script src="../vendors/pnotify/dist/pnotify.nonblock.js"></script>
+    <?php $notify = isset($_SESSION['script'])?$_SESSION['script']:NULL; print_r($notify); ?>
+    <script type="text/javascript">
+      function notifyUser(message) {
+          if(message == "success") {
+              new PNotify({
+                title: 'Adding Success',
+                text: 'Successfully Added Member, Account and Record',
+                type: 'success',
+                styling: 'bootstrap3'
+              });
+          } else {
+              new PNotify({
+                  title: 'Popup Title',
+                  text: 'Whops, you messed up'
+              }); 
+          }
+      }
+    </script>
+    <?php unset($_SESSION['script']); ?>
     <!-- jQuery Tags Input -->
     <script src="../vendors/jquery.tagsinput/src/jquery.tagsinput.js"></script>
     <!-- Switchery -->
@@ -230,7 +232,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
     <!-- starrr -->
     <script src="../vendors/starrr/dist/starrr.js"></script>
     <!-- Custom Theme Scripts -->
-    <script src="../build/js/custom.min.js"></script>
+    <script src="../build/js/custom.js"></script>
 	
   </body>
 </html>
