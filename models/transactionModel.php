@@ -71,7 +71,7 @@ class transactionModel extends DBconnection {
 			return '101';
     }
     function getmembers(){
-        $query = "SELECT *,account.memberID as accMemberID FROM `member` JOIN account ON account.memberID = member.memberID";
+        $query = "SELECT *,account.memberID as accMemberID FROM `member` JOIN account ON account.memberID = member.memberID GROUP BY startDate DESC LIMIT 1";
         $result = mysqli_query($this->conn,$query);
         if(!$result) {
             die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
@@ -107,199 +107,353 @@ class transactionModel extends DBconnection {
         $advbal = $transact['advbal'];
         $daily = $transact['daily'];
         $balance = $transact['accountbalance'];
-        if($balance > $payment+$advbal){
-            if($advbal == 0){
-                echo "No advance balance. ";
-            if($accubal == 0){
-                echo"No accumulated balance. ";
-                if($daily > $payment){
-                    $remainder = abs($daily-$payment);
-                    $accubal = $accubal+$remainder;
-                        echo "Accumulated Balance: ".$accubal;
-                        echo "Advance Balance: ".$advbal;
-                        echo "Total Balance: ".($balance-$payment);
+
+        if($accubal == 0.00 && $accubal == 0.00){
+            if($payment == $balance){
+                $transact['payment'] = $payment;
+                $transact['AccuBal'] = "0.00";
+                $transact['AdvBal'] = "0.00";
+                $transact['description'] = "ACCOUNT DONE";;    
+                $transact['status'] = "full";
+                $transact['balance'] = ($balance-$payment);
+                print_r($transact);
+            }else{
+                if($payment>$balance){
+                    echo "ERROR";
+                }else{
+                    if($payment == $daily){
+                        echo "DONE!";
                         $transact['payment'] = $payment;
-                        $transact['AccuBal'] = $accubal;
-                        $transact['AdvBal'] = ($advbal);
+                        $transact['AccuBal'] = "0.00";
+                        $transact['AdvBal'] = "0.00";
                         $transact['description'] = "Normal Payment";;    
                         $transact['status'] = "partial";
                         $transact['balance'] = ($balance-$payment);
-                }else{
-                    if($daily == $payment){
-                        $remaining = abs($daily-$payment);
-                        echo "Accumulated Balance: ".$accubal;
-                        echo "Advance Balance: ".$advbal;
-                        echo "Total Balance: ".($balance-$payment);
-                        $transact['payment'] = $payment;
-                        $transact['AccuBal'] = $accubal;
-                        $transact['AdvBal'] = ($advbal);
-                        $transact['description'] = "Normal Payment";
-                        $transact['status'] = "partial";
-                        $transact['balance'] = ($balance-$payment);
+                        print_r($transact);
                     }else{
-                        $advbal = $advbal+abs($daily-$payment);
-                        echo "Accumulated Balance: ".$accubal;
-                        echo "Advance Balance: ".$advbal;
-                        echo "Total Balance: ".($balance-$payment);
-                        $transact['payment'] = $payment;
-                        $transact['AccuBal'] = $accubal;
-                        $transact['AdvBal'] = ($advbal);
-                        $transact['description'] = "Normal Payment";
-                        $transact['status'] = "partial";
-                        $transact['balance'] = ($balance-$payment);
-                    }
-                }
-            }else{
-                echo"has accumulated balance. ";
-                $totalbalance = $daily+$accubal;
-                if($totalbalance <= $balance){
-                    echo "Continue";
-                    echo $totalbalance." ".$balance;
-                    if($totalbalance == $payment){
-                        $remaining = abs($totalbalance-$payment);
-                        echo "Equals 1. Remaning Balance: ".$remaining;
-                        echo "Accumulated Balance: ".$accubal;
-                        echo "Advance Balance: ".$advbal;
-                        echo "Total Balance: ".($balance-$payment);
-                        $transact['payment'] = $payment;
-                        $transact['AccuBal'] = ($accubal-$accubal);
-                        $transact['AdvBal'] = ($advbal);
-                        $transact['description'] = "Normal Payment";
-                        $transact['status'] = "partial";
-                        $transact['balance'] = ($balance-$payment);
-                    }else{
-                        if($totalbalance > $payment){
-                            $accubal = abs($totalbalance-$payment);
-                            echo "Accumulated Balance: ".$accubal;
-                            echo "Advance Balance: ".$advbal;
-                            echo "Total Balance: ".($balance-$payment);
+                        if($payment>$daily){
                             $transact['payment'] = $payment;
-                            $transact['AccuBal'] = ($accubal-$accubal);
-                            $transact['AdvBal'] = ($advbal);
-                            $transact['description'] = "Normal Payment";
+                            $transact['AccuBal'] = "0.00";
+                            $transact['AdvBal'] = $payment-$daily;
+                            $transact['description'] = "Advance Payment";
                             $transact['status'] = "partial";
                             $transact['balance'] = ($balance-$payment);
+                            print_r($transact);
                         }else{
-                            $advbal = abs($totalbalance-$payment);
-                            echo "Accumulated Balance: ".$accubal;
-                            echo "Advance Balance: ".$advbal;
-                            echo "Total Balance: ".($balance-$payment);
                             $transact['payment'] = $payment;
-                            $transact['AccuBal'] = ($accubal-$accubal);
-                            $transact['AdvBal'] = ($advbal);
-                            $transact['description'] = "Normal Payment";
+                            $transact['AccuBal'] = $daily-$payment;
+                            $transact['AdvBal'] = "0.00";
+                            $transact['description'] = "Accumulated Payment";   
                             $transact['status'] = "partial";
                             $transact['balance'] = ($balance-$payment);
+                            print_r($transact);
                         }
                     }
+                }   
+            }
+        }
+        if($advbal != 0.00){
+            //has advance
+            if(($advbal+$payment) == $balance){
+                $transact['payment'] = $payment;
+                $transact['AccuBal'] = "0.00";
+                $transact['AdvBal'] = "0.00";
+                $transact['description'] = "ACCOUNT DONE!";    
+                $transact['status'] = "full";
+                $transact['balance'] = ($balance-($advbal+$payment));
+                print_r($transact);
+            }else{
+                if(($advbal+$payment)>$balance){
+                    echo "ERROR LIMIT REACHED";
                 }else{
-                    echo "balance exeeds";
-                    echo "Accumulated Balance: ".$accubal;
-                    echo "Advance Balance: ".$advbal;
-                    echo " Balance: ".($balance-$payment);
+                    if(($advbal+$payment) == $daily){
+                        $transact['payment'] = $payment;
+                        $transact['AccuBal'] = "0.00";
+                        $transact['AdvBal'] = "0.00";
+                        $transact['description'] = "Normal Payment";
+                        $transact['status'] = "partial";
+                        $transact['balance'] = ($balance-($advbal+$payment));
+                        print_r($transact);
+                    }else{
+                        if(($advbal+$payment)>$daily){
+                            $transact['payment'] = $payment;
+                            $transact['AccuBal'] = "0.00";
+                            $transact['AdvBal'] = "0.00";//(($advbal+$payment)-$daily);
+                            $transact['description'] = "Advance Payment";   
+                            $transact['status'] = "partial";
+                            $transact['balance'] = ($balance-($advbal+$payment));
+                            print_r($transact);
+                        }else{
+                            $transact['payment'] = $payment;
+                            $transact['AccuBal'] = $daily-($advbal-$payment);
+                            $transact['AdvBal'] = "0.00";
+                            $transact['description'] = "Accumulated Payment";    
+                            $transact['status'] = "partial";
+                            $transact['balance'] = ($balance-($advbal+$payment));
+                            print_r($transact);
+                        }
+                    }
                 }
             }
-            }else{
-                echo "has advance balance. ";
-                $totalpayment = $payment+$advbal;
-                if($totalpayment == $balance){
-                    echo "Account Done!";
-                    echo "Accumulated Balance: ".$accubal;
-                    echo "Advance Balance: ".($advbal-$advbal);
-                    echo "Total Balance: ".($balance-$payment);
+        }else{
+            if($accubal != 0.00){
+                //has accumulated
+                print_r(abs($accubal-$payment));
+                if(abs($accubal-$payment) == $balance){
                     $transact['payment'] = $payment;
-                    $transact['AccuBal'] = ($accubal-$accubal);
-                    $transact['AdvBal'] = ($advbal-$advbal);
-                    $transact['description'] = "Account fully Paid.";
+                    $transact['AccuBal'] = "0.00";
+                    $transact['AdvBal'] = "0.00";
+                    $transact['description'] = "ACCOUNT DONE!";    
                     $transact['status'] = "full";
-                    $transact['balance'] = ($balance-$totalpayment);
+                    $transact['balance'] = ($balance-abs($accubal-$payment));
+                    print_r($transact);
                 }else{
-                    echo $totalpayment." ".$balance;
-                    if($totalpayment > $balance){
-                        echo "EXCEEDS LIMIT";
-                        echo "Accumulated Balance: ".$accubal;
-                        echo "Advance Balance: ".$advbal;
-                        echo "Total Balance: ".($balance-$totalpayment);
+                    if(abs($accubal-$payment)>$balance){
+                        echo "ERROR! LIMIT REACHED";
                     }else{
-                        if($totalpayment == $daily){
-                            $remaining = abs($totalpayment - $daily);
-                                echo "Equals 2. Remaining Balance: ".$remaining;
-                                echo "Accumulated Balance: ".$accubal;
-                                echo "Advance Balance: ".$advbal;
-                                echo "Total Balance: ".($balance-$payment);
-                                $transact['payment'] = $payment;
-                                $transact['AccuBal'] = $accubal;
-                                $transact['AdvBal'] = ($advbal-$advbal);
-                                $transact['description'] = "Normal Payment";
-                                $transact['status'] = "partial";
-                                $transact['balance'] = ($balance-$totalpayment);
-                        }else{ echo "Payment not equals to daily. ";
-                            if($totalpayment > $daily){
-                                $advbal= (abs($totalpayment-$daily));
-                                echo "Accumulated Balance: ".$accubal;
-                                echo "Advance Balance: ".$advbal;
-                                echo "Total Balance: ".($balance-$payment);
-                                $transact['payment'] = $payment;
-                                $transact['AccuBal'] = $accubal;
-                                $transact['AdvBal'] = ($advbal-$advbal);
-                                $transact['description'] = "Normal Payment";
-                                $transact['status'] = "partial";
-                                $transact['balance'] = ($balance-$totalpayment);
+                        if(abs($accubal+$daily)==$payment){
+                            $transact['payment'] = $payment;
+                            $transact['AccuBal'] = "0.00";
+                            $transact['AdvBal'] = "0.00";
+                            $transact['description'] = "Normal Payment";    
+                            $transact['status'] = "partial";
+                            $transact['balance'] = ($balance);
+                            print_r($transact);
+                        }else{
+                            if(abs($accubal+$daily)>$payment){
+                                    $transact['payment'] = $payment;
+                                    $transact['AccuBal'] = abs(($accubal+$daily)-$payment);
+                                    $transact['AdvBal'] = "0.00";
+                                    $transact['description'] = "Accumulated Payment";    
+                                    $transact['status'] = "partial";
+                                    $transact['balance'] = ($balance);
+                                    print_r($transact);
+                                
                             }else{
-                                $a = $totalpayment-$daily;
-                                $accubal=$accubal+(abs($a));
-                                echo "Accumulated Balance: ".$accubal;
-                                echo "Advance Balance: ".$advbal;
-                                echo "Total Balance: ".($balance-$payment);
                                 $transact['payment'] = $payment;
-                                $transact['AccuBal'] = $accubal;
-                                $transact['AdvBal'] = ($advbal-$advbal);
-                                $transact['description'] = "Normal Payment";
+                                $transact['AccuBal'] = "0.00";
+                                $transact['AdvBal'] = abs(abs($accubal+$daily)-$payment);
+                                $transact['description'] = "Advance Payment";    
                                 $transact['status'] = "partial";
-                                $transact['balance'] = ($balance-$totalpayment);
+                                $transact['balance'] = abs($balance-$daily);
+                                print_r($transact);
                             }
                         }
                     }
                 }
+            }
+        }
+
+        
+        // if($balance > $payment+$advbal){
+        //     if($advbal == 0){
+        //         echo "No advance balance. ";
+        //     if($accubal == 0){
+        //         echo"No accumulated balance. ";
+        //         if($daily > $payment){
+        //             $remainder = abs($daily-$payment);
+        //             $accubal = $accubal+$remainder;
+        //                 echo "A1 - Accumulated Balance: ".$accubal;
+        //                 echo "Advance Balance: ".$advbal;
+        //                 echo "Total Balance: ".($balance-$payment);
+        //                 $transact['payment'] = $payment;
+        //                 $transact['AccuBal'] = $accubal;
+        //                 $transact['AdvBal'] = ($advbal);
+        //                 $transact['description'] = "Normal Payment";;    
+        //                 $transact['status'] = "partial";
+        //                 $transact['balance'] = ($balance-$payment);
+        //         }else{
+        //             if($daily == $payment){
+        //                 $remaining = abs($daily-$payment);
+        //                 echo "A-2 Accumulated Balance: ".$accubal;
+        //                 echo "Advance Balance: ".$advbal;
+        //                 echo "Total Balance: ".($balance-$daily);
+        //                 $transact['payment'] = $payment;
+        //                 $transact['AccuBal'] = $accubal;
+        //                 $transact['AdvBal'] = ($advbal);
+        //                 $transact['description'] = "Normal Payment";
+        //                 $transact['status'] = "partial";
+        //                 $transact['balance'] = ($balance-$daily);
+        //             }else{
+        //                 $advbal = $advbal+abs($daily-$payment);
+        //                 echo "A-3 Accumulated Balance: ".$accubal;
+        //                 echo "Advance Balance: ".$advbal;
+        //                 echo "Total Balance: ".($balance-$daily);
+        //                 $transact['payment'] = $payment;
+        //                 $transact['AccuBal'] = $accubal;
+        //                 $transact['AdvBal'] = ($advbal);
+        //                 $transact['description'] = "Normal Payment";
+        //                 $transact['status'] = "partial";
+        //                 $transact['balance'] = ($balance-$daily);
+        //             }
+        //         }
+        //     }else{
+        //         echo"has accumulated balance. ";
+        //         $totalbalance = $daily+$accubal;
+        //         if($totalbalance <= $balance){
+        //             echo "Continue";
+        //             echo $totalbalance." ".$balance;
+        //             if($totalbalance == $payment){
+        //                 $remaining = abs($totalbalance-$payment);
+        //                 echo "Equals 1. Remaning Balance: ".$remaining;
+        //                 echo "A-4 Accumulated Balance: ".$accubal;
+        //                 echo "Advance Balance: ".$advbal;
+        //                 echo "Total Balance: ".($balance-$payment);
+        //                 $transact['payment'] = $payment;
+        //                 $transact['AccuBal'] = ($accubal-$accubal);
+        //                 $transact['AdvBal'] = ($advbal);
+        //                 $transact['description'] = "Normal Payment";
+        //                 $transact['status'] = "partial";
+        //                 $transact['balance'] = ($balance-$payment);
+        //             }else{
+        //                 if($totalbalance > $payment){
+        //                     $accubal = abs($totalbalance-$payment);
+        //                     echo "A-5 Accumulated Balance: ".$accubal;
+        //                     echo "Advance Balance: ".$advbal;
+        //                     echo "Total Balance: ".($balance-$payment);
+        //                     $transact['payment'] = $payment;
+        //                     $transact['AccuBal'] = ($accubal-$accubal);
+        //                     $transact['AdvBal'] = ($advbal);
+        //                     $transact['description'] = "Normal Payment";
+        //                     $transact['status'] = "partial";
+        //                     $transact['balance'] = ($balance-$payment);
+        //                 }else{
+        //                     $advbal = abs($totalbalance-$payment);
+        //                     echo "A-6 Accumulated Balance: ".$accubal;
+        //                     echo "Advance Balance: ".$advbal;
+        //                     echo "Total Balance: ".($balance-$payment);
+        //                     $transact['payment'] = $payment;
+        //                     $transact['AccuBal'] = ($accubal-$accubal);
+        //                     $transact['AdvBal'] = ($advbal);
+        //                     $transact['description'] = "Normal Payment";
+        //                     $transact['status'] = "partial";
+        //                     $transact['balance'] = ($balance-$payment);
+        //                 }
+        //             }
+        //         }else{
+        //             echo "balance exeeds";
+        //             echo "Accumulated Balance: ".$accubal;
+        //             echo "Advance Balance: ".$advbal;
+        //             echo " Balance: ".($balance-$payment);
+        //         }
+        //     }
+        //     }else{
+        //         echo "has advance balance. ";
+        //         $totalpayment = $payment+$advbal;
+        //         if($totalpayment == $balance){
+        //             echo "Account Done!";
+        //             echo "A-7 Accumulated Balance: ".$accubal;
+        //             echo "Advance Balance: ".($advbal-$advbal);
+        //             echo "Total Balance: ".($balance-$payment);
+        //             $transact['payment'] = $payment;
+        //             $transact['AccuBal'] = ($accubal-$accubal);
+        //             $transact['AdvBal'] = ($advbal-$advbal);
+        //             $transact['description'] = "Account fully Paid.";
+        //             $transact['status'] = "full";
+        //             $transact['balance'] = ($balance-$totalpayment);
+        //         }else{
+        //             echo $totalpayment." ".$balance;
+        //             if($totalpayment > $balance){
+        //                 echo "EXCEEDS LIMIT";
+        //                 echo "Accumulated Balance: ".$accubal;
+        //                 echo "Advance Balance: ".$advbal;
+        //                 echo "Total Balance: ".($balance-$totalpayment);
+        //             }else{
+        //                 if($totalpayment == $daily){
+        //                     $remaining = abs($totalpayment - $daily);
+        //                         echo "Equals 2. Remaining Balance: ".$remaining;
+        //                         echo "A-8 Accumulated Balance: ".$accubal;
+        //                         echo "Advance Balance: ".$advbal;
+        //                         echo "Total Balance: ".($balance-$payment);
+        //                         $transact['payment'] = $payment;
+        //                         $transact['AccuBal'] = $accubal;
+        //                         $transact['AdvBal'] = ($advbal-$advbal);
+        //                         $transact['description'] = "Normal Payment";
+        //                         $transact['status'] = "partial";
+        //                         $transact['balance'] = ($balance-$totalpayment);
+        //                 }else{ echo "Payment not equals to daily. ";
+        //                     if($totalpayment > $daily){
+        //                         $advbal= (abs($totalpayment-$daily));
+        //                         echo "A-9 Accumulated Balance: ".$accubal;
+        //                         echo "Advance Balance: ".$advbal;
+        //                         echo "Total Balance: ".($balance-$payment);
+        //                         $transact['payment'] = $payment;
+        //                         $transact['AccuBal'] = $accubal;
+        //                         $transact['AdvBal'] = ($advbal-$advbal);
+        //                         $transact['description'] = "Normal Payment";
+        //                         $transact['status'] = "partial";
+        //                         $transact['balance'] = ($balance-$totalpayment);
+        //                     }else{
+        //                         $a = $totalpayment-$daily;
+        //                         $accubal=$accubal+(abs($a));
+        //                         echo "A-10 Accumulated Balance: ".$accubal;
+        //                         echo "Advance Balance: ".$advbal;
+        //                         echo "Total Balance: ".($balance-$payment);
+        //                         $transact['payment'] = $payment;
+        //                         $transact['AccuBal'] = $accubal;
+        //                         $transact['AdvBal'] = ($advbal-$advbal);
+        //                         $transact['description'] = "Normal Payment";
+        //                         $transact['status'] = "partial";
+        //                         $transact['balance'] = ($balance-$totalpayment);
+        //                     }
+        //                 }
+        //             }
+        //         }
                 
-            }
-        }else{
-            if($balance == $payment+$advbal){
-                $totalpayment = $payment+$advbal;
-                echo "Account Done!";
-                echo "Accumulated Balance: ".$accubal;
-                echo "Advance Balance: ".($advbal-$advbal);
-                echo "Payment: ".$payment;
-                echo "Total Balance: ".($balance-$payment);
-                $transact['payment'] = $payment;
-                $transact['AccuBal'] = ($accubal-$accubal);
-                $transact['AdvBal'] = ($advbal-$advbal);
-                $transact['description'] = "Account fully Paid.";
-                $transact['status'] = "full";
-                $transact['balance'] = ($balance-$payment);
-            }else{
-                $error = "Total payment exceeds remaining balance.";
-                return $error;
-            }
-        }
+        //     }
+        // }else{
+        //     echo $advbal+$payment;
+        //     if($balance == $payment+$advbal){
+        //         $totalpayment = $payment+$advbal;
+        //         echo "Account Done!";
+        //         echo "A-11 Accumulated Balance: ".$accubal;
+        //         echo "Advance Balance: ".($advbal-$advbal);
+        //         echo "Payment: ".$payment;
+        //         echo "Total Balance: ".($balance-$payment);
+        //         $transact['payment'] = $payment;
+        //         $transact['AccuBal'] = ($accubal-$accubal);
+        //         $transact['AdvBal'] = ($advbal-$advbal);
+        //         $transact['description'] = "Account fully Paid.";
+        //         $transact['status'] = "full";
+        //         $transact['balance'] = ($balance-$totalpayment);
+        //         $transact['status'] = "cleared";
+        //         $_SESSION['script'] = "<script type='text/javascript'>
+        //         $(document).ready(function(e) {
+        //             notifyUser('done');
+        //         });
+        //         </script>";
+        //         $query = "UPDATE `account` SET `balance`=\"".$transact['balance']."\",`status`=\"".$transact['status']."\" WHERE `accID` = \"".$transact['accID']."\"";
+        //         $result = mysqli_query($this->conn,$query);
+        //         if(!$result){
+        //             die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
+        //             return mysqli_error($this->conn);
+        //         } return "101";
+        //     }else{
+        //         $_SESSION['script'] = "<script type='text/javascript'>
+        //         $(document).ready(function(e) {
+        //             notifyUser('exceeds');
+        //         });
+        //         </script>";
+        //         return FALSE;
+        //     }
+        // }
 
-        //print_r($transact);
 
-        $query="INSERT INTO `records`(`recordID`, `accID`, `payment`, `AccuBal`,`creditBalance`, `AdvBal`, `description`, `status`) 
-        VALUES (\"".$transact['recordID']."\",\"".$transact['accID']."\",\"".$transact['payment']."\",\"".$transact['AccuBal']."\",\"".$transact['balance']."\",\"".$transact['AdvBal']."\",\"".$transact['description']."\",\"".$transact['status']."\")";
-        $result = mysqli_query($this->conn,$query);
-        if(!$result){
-            die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
-            return mysqli_error($this->conn);
-        }
-        $query = "UPDATE `account` SET `balance`=\"".$transact['balance']."\" WHERE `accID` = \"".$transact['accID']."\"";
-        $result = mysqli_query($this->conn,$query);
-        if(!$result){
-            die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
-            return mysqli_error($this->conn);
-        } return "101";
-
-
+        // $query="INSERT INTO `records`(`recordID`, `accID`, `payment`, `AccuBal`,`creditBalance`, `AdvBal`, `description`, `status`) 
+        // VALUES (\"".$transact['recordID']."\",\"".$transact['accID']."\",\"".$transact['payment']."\",\"".$transact['AccuBal']."\",\"".$transact['balance']."\",\"".$transact['AdvBal']."\",\"".$transact['description']."\",\"".$transact['status']."\")";
+        // print_r($query);
+        // $result = mysqli_query($this->conn,$query);
+        // if(!$result){
+        //     die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
+        //     return mysqli_error($this->conn);
+        // }
+        // $query = "UPDATE `account` SET `balance`=\"".$transact['balance']."\" WHERE `accID` = \"".$transact['accID']."\"";
+        // print_r($query);
+        // $result = mysqli_query($this->conn,$query);
+        // if(!$result){
+        //     die("<strong>WARNING:</strong><br>" . mysqli_error($this->conn));
+        //     return mysqli_error($this->conn);
+        // } return "101";
 
     }
 

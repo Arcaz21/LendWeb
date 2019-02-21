@@ -3,10 +3,13 @@ session_start();
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
 }
+unset($_SESSION['addmemid']);
 $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
 include "../controllers/transactionFunction.php";
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
+
+echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 
 ?>
 
@@ -67,6 +70,7 @@ $data =$db->getuser($_SESSION['username']);
                   <div class="x_content">
                     <div class="x_content">
                     <button type="button" class="btn btn-default"><a href="c_addlend.php"><i class="fa fa-plus-circle"></i>  Add Lendee </a></button>
+
                     <div class="clearfix"></div>
                     </div>
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
@@ -81,6 +85,7 @@ $data =$db->getuser($_SESSION['username']);
                           <th>Address</th>
                           <th>Rating</th>
                           <th>Register Date</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -95,6 +100,9 @@ $data =$db->getuser($_SESSION['username']);
                           <td><?php echo $members['address'];?></td>
                           <td><?php echo $members['rating'];?></td>
                           <td><?php echo $members['regDate'];?></td>
+                          <td>
+                            <button type="button" class="btn btn-default"><a href="<?php $_SESSION['addmemid'] = $members['memberID']; echo "c_addacc.php" ?>"><i class="fa fa-credit-card"></i>  Add Account </a></button>
+                          </td>
                         </tr>
                       <?php endforeach;?>
                       </tbody>

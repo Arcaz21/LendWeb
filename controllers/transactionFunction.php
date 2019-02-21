@@ -11,8 +11,10 @@ $submit = isset($_REQUEST['submit'])?$_REQUEST['submit']:NULL;
 if($submit == 'pay'){
 
     $payment['memberID'] = isset($_REQUEST['memberID'])?$_REQUEST['memberID']:NULL;
+
+    //print_r($payment);
+
     $record = $tm->getrecord($payment['memberID']);
-  //  print_r($record);
     $transact['accountbalance'] = $record[0]['accountbalance'];
     $transact['payment'] = isset($_REQUEST['payment'])?$_REQUEST['payment']:NULL;
     $transact['accubal'] =  $record[0]['AccuBal'];
@@ -20,17 +22,19 @@ if($submit == 'pay'){
     $transact['daily'] =  $record[0]['dailyPayment'];
     $transact['accID'] = $record[0]['accID'];
     $transact['recordID']=substr(md5(uniqid()),0,5);
+
+    //print_r($transact);
     $record = $tm->transact($transact);
     while($record == '1062'){
         $transact['recordID']=substr(md5(uniqid()),0,5);
         $record = $tm->transact($transact);
-        print_r($record);
+        //print_r($record);
         if($record == '101'){
-            $_SESSION['script'] = "<script type='text/javascript'>
-        $(document).ready(function(e) {
-            notifyUser('success');
-        });
-        </script>";
+        // $_SESSION['script'] = "<script type='text/javascript'>
+        // $(document).ready(function(e) {
+        //     notifyUser('success');
+        // });
+        // </script>";
             break;
         }
     }
@@ -41,7 +45,7 @@ if($action == 'transact'){
     $transaction['amtpayment']= isset($_REQUEST['amtpayment'])?$_REQUEST['amtpayment']:NULL;
     $transaction['userID']= isset($_REQUEST['userID'])?$_REQUEST['userID']:NULL;
 
-    print_r($transaction);
+    //print_r($transaction);
     // $account = $tm->getaccount($transaction);
     // if($getaccount != null){
     //     $addtransaction = $tm->addtrans($transaction,$account);
@@ -115,6 +119,19 @@ if($action == 'addmember'){
         notifyUser('success');
     });
     </script>";
+
+}
+
+if($page == 'c_addacc.php'){
+    $submit = isset($_REQUEST['submit'])?$_REQUEST['submit']:NULL;
+    echo "1YES";
+    $contract = isset($_REQUEST['contract'])?$_REQUEST['contract']:NULL;
+    print_r($contract);
+    print_r($submit);
+    if($submit == 'addacc' && $contract == '60'){
+        echo "YES";
+    
+    }
 
 }
 

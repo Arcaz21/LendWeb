@@ -6,7 +6,9 @@ if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
 include "../controllers/transactionFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
-$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
+
+echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -71,22 +73,26 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="acc"> Account <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="acc"> Member ID <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="acc" required="required" class="form-control col-md-7 col-xs-12">
+                          <input name="memberID" type="text" id="acc" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $_SESSION['addmemid'];?>">
+                        </div>
+                      </div>
+
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="acc"> Credit Amount <span class="required">* </span>
+                        </label>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <input name="amount" placeholder="₱ 1000.00" min="0.00" step="0.01" type="number" id="acc" required="required" class="form-control col-md-7 col-xs-12" >
                         </div>
                       </div>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-12"> Select Contract <span class="required">*</span></label>
-                        <div class="col-md-9 col-sm-9 col-xs-12">
-                          <select class="form-control">
-                            <option>Choose option</option>
-                            <option>60 Days</option>
-                            <option>Option two</option>
-                            <option>Option three</option>
-                            <option>Option four</option>
+                        <div class="col-md-6 col-sm-6 col-xs-12">
+                          <select name="contract" required="required" class="form-control">
+                            <option value="60">60 Days</option>
                           </select>
                         </div>
                       </div>
@@ -95,9 +101,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
                           <button class="btn btn-default"><a href="c_accounts.php"> Cancel </a></button>
-                          <button class="btn btn-default"><a href="c_addacc.php"> Reset </a></button>
-                          <input hidden="hidden" name="action" value="addacc" >
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button type="submit" name="submit" value="addacc" class="btn btn-success">Submit</button>
                         </div>
                       </div>
 

@@ -100,6 +100,7 @@ $data =$db->getuser($_SESSION['username']);
                           <th>Full Name</th>
                           <th>Contact</th>
                           <th>Remaining Balance</th>
+                          <th>Advance Balance</th>
                           <th>Action</th>
                         </tr>
                       </thead>
@@ -110,10 +111,11 @@ $data =$db->getuser($_SESSION['username']);
                           <td><?php echo $members['fname']." ".$members['mname']." ".$members['lname'];?></td>
                           <td><?php echo $members['contact'];?></td>
                           <td><?php echo $members['balance'];?></td>
+
                           <td>
                             <form action="<?php $_PHP_SELF ?>" method="POST">
                                 <input required="required"  name="payment" type="number" step='0.01'  placeholder='0.00' >
-                                <input  hidden="hidden" name="memberID" value="<?php echo $members['memberID']; ?>" >
+                                <input hidden="hidden" name="memberID" value="<?php echo $members['memberID']; ?>" >
                                 <button name="submit" value="pay" type="submit" class="btn btn-success">PAY</button>
                             </form>
                            </td>
@@ -136,6 +138,8 @@ $data =$db->getuser($_SESSION['username']);
         <!-- /footer content -->
       </div>
     </div>
+
+                
 
     <!-- jQuery -->
     <script src="../vendors/jquery/dist/jquery.min.js"></script>
@@ -175,12 +179,22 @@ $data =$db->getuser($_SESSION['username']);
                 title: 'Adding Success',
                 text: 'Successfully Added Payment',
                 type: 'success',
-                styling: 'bootstrap3'
+                styling: 'bootstrap4'
               });
-          } else {
+          }if(message =="exceeds"){
               new PNotify({
-                  title: 'Popup Title',
-                  text: 'Whops, you messed up'
+                  title: 'Payment Failed!',
+                text: 'Total Payment and Advance Balance exceeds total Remaining Balance.',
+                type: 'alert',
+                styling: 'bootstrap3'
+              }); 
+          }
+          if(message =="done"){
+              new PNotify({
+                  title: 'Account Fully Paid',
+                text: 'Last Payment Recorded. Please Inform the Member that Payment is Successful.',
+                type: 'info',
+                styling: 'bootstrap3'
               }); 
           }
       }

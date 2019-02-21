@@ -71,6 +71,7 @@ $data =$db->getuser($_SESSION['username']);
                           <th>Payment</th>
                           <th>Balance</th>
                           <th>Advance Payment Balance</th>
+                          <th>Accumulated Balance</th>
                           <th>Record Date</th>
                         </tr>
                       </thead>
@@ -81,7 +82,8 @@ $data =$db->getuser($_SESSION['username']);
                           <td><?php echo $record['lname'] ?></td>
                           <td><?php echo $record['dailyPayment'] ?></td>
                           <td><?php echo "₱".$record['payment'] ?></td>
-                          <td><?php echo "₱".$record['balance'] ?></td>
+                          <td><?php echo "₱".$record['creditBalance'] ?></td>
+                          <td><?php echo "₱".$record['AdvBal'] ?></td>
                           <td><?php echo "₱".$record['AccuBal'] ?></td>
                           <td><?php echo $record['recDate'] ?></td>
                         </tr>

@@ -1,6 +1,6 @@
 <?php 
 session_start();  
-include "../controllers/transactionFucntion.php"; 
+include "../controllers/transactionFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
 $_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
