@@ -3,13 +3,13 @@ session_start();
 if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
   header("location: ../index.php");
 }
-unset($_SESSION['addmemid']);
 $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
 include "../controllers/transactionFunction.php";
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
+$_SESSION['user_id'] = $data->user_id;
 
-echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
+//echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 
 ?>
 
@@ -77,7 +77,6 @@ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
                       <thead>
                         <tr>
                           <th>Member ID</th>
-                          <th>Username</th>
                           <th>First Name</th>
                           <th>Last Name</th>
                           <th>Middle Name</th>
@@ -90,9 +89,9 @@ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
                       </thead>
                       <tbody>
                       <?php error_reporting(E_ERROR | E_PARSE); foreach ($getmembers as $index => $members):  ?>
+                       
                         <tr>
                           <td><?php echo $members['memberID'];?></td>
-                          <td><?php echo $members['username'];?></td>
                           <td><?php echo $members['fname'];?></td>
                           <td><?php echo $members['lname'];?></td>
                           <td><?php echo $members['mname'];?></td>
@@ -100,13 +99,18 @@ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
                           <td><?php echo $members['address'];?></td>
                           <td><?php echo $members['rating'];?></td>
                           <td><?php echo $members['regDate'];?></td>
-                          <td>
-                            <button type="button" class="btn btn-default"><a href="<?php $_SESSION['addmemid'] = $members['memberID']; echo "c_addacc.php" ?>"><i class="fa fa-credit-card"></i>  Add Account </a></button>
+                          <td>  
+                            <form action="<?php $_PHP_SELF ?>" method="POST">
+                            <input hidden="" name="memberID" value="<?php echo $members['memberID'];?>">
+                            <button type="submit" name="submit" value="addaccountpage" class="btn btn-default"><i class="fa fa-credit-card"></i>  Add Account</button>
+                            </form>
                           </td>
                         </tr>
+                      
                       <?php endforeach;?>
                       </tbody>
                     </table>
+
                   </div>
                 </div>
               </div>

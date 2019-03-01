@@ -44,6 +44,7 @@ $data =$db->getuser($_SESSION['username']);
     <link href="../build/css/custom.min.css" rel="stylesheet">
     <!-- FAVICON-->
     <link rel="icon" href="..vendors/img/favicon.png">
+
   </head>
 
   <body class="nav-md">
@@ -93,13 +94,14 @@ $data =$db->getuser($_SESSION['username']);
                           </div>
                         </div>
                       <!-- /modals -->
-                    <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
+                    <table id="datatable-responsive" class="table1 table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
                           <th>Member ID</th>
                           <th>Full Name</th>
-                          <th>Contact</th>
+                          <th>Status</th>
                           <th>Remaining Balance</th>
+                          <th>Accumulated Balance</th>
                           <th>Advance Balance</th>
                           <th>Action</th>
                         </tr>
@@ -109,13 +111,15 @@ $data =$db->getuser($_SESSION['username']);
                         <tr>
                           <td><?php echo $members['memberID'];?></td>
                           <td><?php echo $members['fname']." ".$members['mname']." ".$members['lname'];?></td>
-                          <td><?php echo $members['contact'];?></td>
-                          <td><?php echo $members['balance'];?></td>
-
+                          <td><?php echo $members['accstatus'];?></td>
+                          <td><?php echo $members['creditBalance'];?></td>
+                          <td><?php echo $members['AccuBal'];?></td>
+                          <td><?php echo $members['AdvBal'];?></td>
                           <td>
                             <form action="<?php $_PHP_SELF ?>" method="POST">
                                 <input required="required"  name="payment" type="number" step='0.01'  placeholder='0.00' >
                                 <input hidden="hidden" name="memberID" value="<?php echo $members['memberID']; ?>" >
+                                <input hidden="hidden" name="uid" value="<?php echo $data->user_id; ?>" >
                                 <button name="submit" value="pay" type="submit" class="btn btn-success">PAY</button>
                             </form>
                            </td>
@@ -200,7 +204,29 @@ $data =$db->getuser($_SESSION['username']);
       }
     </script>
     <?php unset($_SESSION['script']); ?>
-
+    <script type="text/javascript">
+        $(document).ready( function () {
+                    $('.table1').DataTable({
+                        "iDisplayLength": 10,
+                        "bFilter": true,
+                        "bProcessing": true,
+                        "bSortClasses": true,
+                        "aaSorting" : [[2, "desc"]],
+                        "rowCallback": function( row, data, index ) {
+                            if ( data[2] == "overdue" )
+                            {
+                                $('td', row).css('background-color', 'rgb(255,164,164)');
+                                $('td', row[6]).css('color', 'Black');
+                            }
+                            else if ( data[2] == "uncleared" )
+                            {
+                                $('td', row).css('background-color', 'rgb(228,247,174)');
+                                $('td', row).css('color', 'Black');
+                            }
+                        }
+                    });
+        })
+    </script>
     <!-- Custom Theme Scripts -->
     <script src="../build/js/custom.js"></script>
 

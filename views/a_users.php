@@ -1,3 +1,17 @@
+<?php 
+session_start();  
+if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
+  header("location: ../index.php");
+  if($_SESSION['role'] != 'admin'){
+    header("location: ../index.php");
+  }
+}
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
+include "../controllers/transactionFunction.php"; 
+$db = new userModel();
+$data =$db->getuser($_SESSION['username']);
+//echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -44,56 +58,7 @@
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-             <a href="a_home.php" class="site_title"><img src="../vendors/img/favicon.png" width="50px" height="50px">   Lend Web!</span></a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>Ayah</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a href="a_home.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="a_users.php"><i class="fa fa-users"></i> Users </a></li>
-                  <li><a href="a_lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
-                </ul>
-              </div>
-            </div>
-            <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            <!-- /menu footer buttons -->
-          </div>
-        </div>
+        <?php include "structure/sidemenuadmin.php"; ?>
 
                <!-- top navigation -->
         <div class="top_nav">
@@ -118,7 +83,7 @@
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="../index.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
@@ -165,7 +130,7 @@
             <div class="clearfix"></div>
             <div class="row">
              <!-- list -->
-                          <div class="col-md-12 col-sm-12 col-xs-12">
+              <div class="col-md-12 col-sm-12 col-xs-12">
                 <div class="x_panel">
                   <div class="x_title">
                     <h2>Report</h2>
@@ -179,29 +144,32 @@
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
-                          <th>First name</th>
-                          <th>Last name</th>
-                          <th>Position</th>
-                          <th>Office</th>
-                          <th>Age</th>
-                          <th>Start date</th>
-                          <th>Salary</th>
-                          <th>Extn.</th>
-                          <th>E-mail</th>
+                          <th>User ID</th>
+                          <th>Username</th>
+                          <th>Password</th>
+                          <th>Name</th>
+                          <th>Registration Date</th>
+                          <th>role</th>
+                          <th>Action</th>
                         </tr>
                       </thead>
                       <tbody>
+                        <?php error_reporting(E_ERROR | E_PARSE); foreach ($getusers as $index => $users): if($users['username'] != $data->username): ?>
                         <tr>
-                          <td>Tiger</td>
-                          <td>Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td>
-                          <td>5421</td>
-                          <td>t.nixon@datatables.net</td>
+                          <td><?php echo $users['user_id']; ?></td>
+                          <td><?php echo $users['username']; ?></td>
+                          <td><?php echo $users['password']; ?></td>
+                          <td><?php echo $users['fname']." ".$users['mname']." ".$users['lname']; ?></td>
+                          <td><?php echo $users['reg_date'] ?></td>
+                          <td><?php echo $users['role'] ?></td>
+                          <td>
+                            <form action="<?php $_PHP_SELF ?>" method="POST">
+                            <input hidden="" name="userid" value="<?php  echo $users['user_id']; ?>">
+                            <button type="submit" name="submit" value="deluser" class="btn btn-danger"><i class="fa fa-trash"></i> DELETE</button>
+                            </form>
+                          </td>
                         </tr>
+                      <?php endif; endforeach;?>
                       </tbody>
                     </table>
                   </div>

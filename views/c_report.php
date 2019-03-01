@@ -65,6 +65,7 @@ $data =$db->getuser($_SESSION['username']);
                     <table id="datatable-responsive" class="table table-striped table-bordered dt-responsive nowrap" cellspacing="0" width="100%">
                       <thead>
                         <tr>
+                          <th>ID Number</th>
                           <th>First name</th>
                           <th>Last name</th>
                           <th>Daily</th>
@@ -78,6 +79,7 @@ $data =$db->getuser($_SESSION['username']);
                       <tbody>
                         <?php error_reporting(E_ERROR | E_PARSE); foreach ($getrecord as $index => $record):  ?>
                         <tr>
+                          <td><?php echo $record['accID'] ?></td>
                           <td><?php echo $record['fname'] ?></td>
                           <td><?php echo $record['lname'] ?></td>
                           <td><?php echo $record['dailyPayment'] ?></td>

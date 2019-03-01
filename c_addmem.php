@@ -284,8 +284,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                 type: 'success',
                 styling: 'bootstrap3'
               });
-          } 
-           else {
+          } else {
               new PNotify({
                   title: 'Popup Title',
                   text: 'Whops, you messed up'

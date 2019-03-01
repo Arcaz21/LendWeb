@@ -1,8 +1,15 @@
 <?php 
-include "../controllers/transactionFunction.php"; 
+session_start(); 
+if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
+  header("location: ../index.php");
+  if($_SESSION['role'] != 'admin'){
+    header("location: ../index.php");
+  }
+}
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
+include "../controllers/adminFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
-$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -87,7 +94,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
               <a data-toggle="tooltip" data-placement="top" title="Lock">
                 <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
               </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
+              <a data-toggle="tooltip" data-placement="top" title="Logout" href="../index.html">
                 <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
               </a>
             </div>
@@ -118,7 +125,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="../index.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
@@ -175,18 +182,18 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                     <form action="<?php $_PHP_SELF ?>" method="POST" id="demo-form2" data-parsley-validate class="form-horizontal form-label-left">
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uname"> Username <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="uname" > Username <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="uname" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="uname" required="required" class="form-control col-md-7 col-xs-12" name="uname">
                         </div>
                       </div>
 
                       <div class="form-group">
-                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pswd"> Password <span class="required">*</span>
+                        <label class="control-label col-md-3 col-sm-3 col-xs-12" for="pwd"> Password <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="pswd" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="pswd" required="required" class="form-control col-md-7 col-xs-12" name="pwd">
                         </div>
                       </div>
 
@@ -194,7 +201,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="fname"> First Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="fname" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="fname" required="required" class="form-control col-md-7 col-xs-12" name="fname">
                         </div>
                       </div>
 
@@ -202,18 +209,28 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="lname"> Last Name <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input type="text" id="lname" required="required" class="form-control col-md-7 col-xs-12">
+                          <input type="text" id="lname" required="required" class="form-control col-md-7 col-xs-12" name="lname">
                         </div>
                       </div>
 
                       <div class="form-group">
                         <label class="control-label col-md-3 col-sm-3 col-xs-3"> Select Role <span class="required">*</span></label>
                         <div class="col-md-2 col-sm-2 col-xs-3">
-                          <select class="form-control">
+                          <select name="role" class="form-control">
                             <option>Choose option</option>
                             <option> Admin </option>
                             <option> Collector </option>
                             <option> User </option>
+                          </select>
+                        </div>
+                      </div>
+                      <div class="form-group">
+                        <label class="control-label col-md-3 col-sm-3 col-xs-3"> Select Status <span class="required">*</span></label>
+                        <div class="col-md-2 col-sm-2 col-xs-3">
+                          <select name="status" class="form-control">
+                            <option>Choose option</option>
+                            <option>Active</option>
+                            <option>Inactive</option>
                           </select>
                         </div>
                       </div>
@@ -224,7 +241,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                           <button class="btn btn-default"><a href="a_users.php"> Cancel </a></button>
                           <button class="btn btn-default"><a href="a_adduser.php"> Reset </a></button>
                           <input hidden="hidden" name="action" value="adduser" >
-                          <button type="submit" class="btn btn-success">Submit</button>
+                          <button type="submit" name="submit" value="adduser" class="btn btn-success">Submit</button>
                         </div>
                       </div>
 

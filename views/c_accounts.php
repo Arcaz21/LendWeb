@@ -4,6 +4,7 @@ include "../controllers/transactionFunction.php";
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
 $_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
+echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +70,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                       <thead>
                         <tr>
                           <th>Account ID</th>
-                          <th>Member ID</th>
+                          <th>Member Name</th>
                           <th>Balance</th>
                           <th>Daily Payment</th>
                           <th>Start Date</th>
@@ -78,15 +79,17 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                         </tr>
                       </thead>
                       <tbody>
+                        <?php error_reporting(E_ERROR | E_PARSE); foreach ($getaccounts as $index => $account):  ?>
                         <tr>
-                          <td>Tiger</td>
-                          <td>Nixon</td>
-                          <td>System Architect</td>
-                          <td>Edinburgh</td>
-                          <td>61</td>
-                          <td>2011/04/25</td>
-                          <td>$320,800</td> 
+                          <td><?php echo $account['accID'];?></td>
+                          <td><?php echo $account['name'];?></td>
+                          <td><?php echo $account['balance'];?></td>
+                          <td><?php echo $account['dailyPayment'];?></td>
+                          <td><?php echo $account['startDate'];?></td>
+                          <td><?php echo $account['dueDate'];?></td>
+                          <td><?php echo $account['status'];?></td>
                         </tr>
+                        <?php endforeach;?>
                       </tbody>
                     </table>
                   </div>

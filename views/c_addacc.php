@@ -8,7 +8,7 @@ $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
 $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
 
-echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
+//echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -76,7 +76,7 @@ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
                         <label class="control-label col-md-3 col-sm-3 col-xs-12" for="acc"> Member ID <span class="required">*</span>
                         </label>
                         <div class="col-md-6 col-sm-6 col-xs-12">
-                          <input name="memberID" type="text" id="acc" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $_SESSION['addmemid'];?>">
+                          <input name="memberID" type="text" id="memberID" required="required" class="form-control col-md-7 col-xs-12" value="<?php echo $_SESSION['addmemid'];?>">
                         </div>
                       </div>
 
@@ -100,8 +100,7 @@ echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
                       <div class="ln_solid"></div>
                       <div class="form-group">
                         <div class="col-md-6 col-sm-6 col-xs-12 col-md-offset-3">
-                          <button class="btn btn-default"><a href="c_accounts.php"> Cancel </a></button>
-                          <button type="submit" name="submit" value="addacc" class="btn btn-success">Submit</button>
+                          <button type="submit" name="submit" value="addaccount" class="btn btn-success">Submit</button>
                         </div>
                       </div>
 

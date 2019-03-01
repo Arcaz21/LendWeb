@@ -153,6 +153,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                           <button class="btn btn-default"><a href="c_lendees.php"> Cancel </a></button>
                           <button class="btn btn-default"><a href="c_addlend.php"> Reset </a></button>
                           <input hidden="hidden" name="action" value="addmember" >
+                          <input hidden="hidden" name="uid" value="<?php echo $data->user_id; ?>" >
                           <button type="submit" class="btn btn-success">Submit</button>
                         </div>
                       </div>
@@ -208,11 +209,14 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                 type: 'success',
                 styling: 'bootstrap3'
               });
-          } else {
+          }
+          if(message == "balance") {
               new PNotify({
-                  title: 'Popup Title',
-                  text: 'Whops, you messed up'
-              }); 
+                title: 'Balance Error',
+                text: 'Wallet Balance is not sufficient! Please Ask Admin for Funds.',
+                type: 'error',
+                styling: 'bootstrap3'
+              });
           }
       }
     </script>

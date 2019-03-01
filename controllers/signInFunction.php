@@ -9,13 +9,13 @@ if(isset($_POST['submit'])){
     $username = $db->escape_string($user);
     $password = $db->escape_string($pass);
     
-    print_r($user);
-    print_r($pass);
+    //print_r($user);
+    //print_r($pass);
     $check = $db->check_user($username,$password);
     if($check){
         $getuser = $db->get_user($username,$password);
-        print_r($getuser->role);
-        if($getuser->role == 'admin'){
+        //print_r($getuser->role);
+        if($getuser->role == 'admin' && $getuser->status == 'active'){
             echo "<-ADMIN LOG-IN->";
             session_start();
             $url = "Location: ./views/a_home.php";
@@ -24,17 +24,24 @@ if(isset($_POST['submit'])){
             $_SESSION['role'] =  $getuser->role;
             $db->goto($url);
         }
-        if($getuser->role == 'user'){
-            echo "<-USER LOG-IN->";
+        if($getuser->role == 'admin' && $getuser->status == 'inactive'){
+            echo "<-INACTIVE LOG-IN->";
+            $url = "Location: ./views/page_404.php";
+            $db->goto($url);
         }
-        if($getuser->role == 'collector'){
+        if($getuser->role == 'collector' && $getuser->status == 'active'){
             echo "<-COLLECTOR LOG-IN->";
             session_start();
             $url = "Location: ./views/c_home.php";
             $_SESSION['username'] =  $getuser->username;
             $_SESSION['password'] =  $getuser->password;
             $_SESSION['role'] =  $getuser->role;
-            print_r($_SESSION['username']);
+            //print_r($_SESSION['username']);
+            $db->goto($url);
+        }
+        if($getuser->role == 'collector' && $getuser->status == 'inactive'){
+            echo "<-INACTIVE LOG-IN->";
+            $url = "Location: ./views/page_404.php";
             $db->goto($url);
         }
     }else{

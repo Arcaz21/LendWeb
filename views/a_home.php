@@ -1,9 +1,16 @@
 <?php 
 session_start();  
-include "../controllers/userFunction.php"; 
+if( !isset($_SESSION['username']) && !isset($_SESSION['password'])){
+  header("location: ../index.php");
+  if($_SESSION['role'] != 'admin'){
+    header("location: ../index.php");
+  }
+}
+$_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
+include "../controllers/adminFunction.php"; 
 $db = new userModel();
 $data =$db->getuser($_SESSION['username']);
-$_SESSION['page'] =  basename($_SERVER['PHP_SELF']); 
+//echo '<pre>' . print_r($_SESSION, TRUE) . '</pre>';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -45,56 +52,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
   <body class="nav-md">
     <div class="container body">
       <div class="main_container">
-        <div class="col-md-3 left_col">
-          <div class="left_col scroll-view">
-            <div class="navbar nav_title" style="border: 0;">
-              <a href="a_home.php" class="site_title"><img src="../vendors/img/favicon.png" width="50px" height="50px">   Lend Web!</span></a>
-            </div>
-
-            <div class="clearfix"></div>
-
-            <!-- menu profile quick info -->
-            <div class="profile clearfix">
-              <div class="profile_info">
-                <span>Welcome,</span>
-                <h2>Ayah</h2>
-              </div>
-            </div>
-            <!-- /menu profile quick info -->
-
-            <br />
-
-            <!-- sidebar menu -->
-            <div id="sidebar-menu" class="main_menu_side hidden-print main_menu">
-              <div class="menu_section">
-                <h3>General</h3>
-                <ul class="nav side-menu">
-                  <li><a href="a_home.php"><i class="fa fa-home"></i> Home </a></li>
-                  <li><a href="a_users.php"><i class="fa fa-users"></i> Users </a></li>
-                  <li><a href="a_lendees.php"><i class="fa fa-money"></i> Lendees </a></li>
-                </ul>
-              </div>
-            </div>
-            <!-- /sidebar menu -->
-
-            <!-- /menu footer buttons -->
-            <div class="sidebar-footer hidden-small">
-              <a data-toggle="tooltip" data-placement="top" title="Settings">
-                <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="FullScreen">
-                <span class="glyphicon glyphicon-fullscreen" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Lock">
-                <span class="glyphicon glyphicon-eye-close" aria-hidden="true"></span>
-              </a>
-              <a data-toggle="tooltip" data-placement="top" title="Logout" href="login.html">
-                <span class="glyphicon glyphicon-off" aria-hidden="true"></span>
-              </a>
-            </div>
-            <!-- /menu footer buttons -->
-          </div>
-        </div>
+        <?php include "structure/sidemenuadmin.php"; ?>
 
         <!-- top navigation -->
         <div class="top_nav">
@@ -119,7 +77,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
                       </a>
                     </li>
                     <li><a href="javascript:;">Help</a></li>
-                    <li><a href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
+                    <li><a href="../index.php"><i class="fa fa-sign-out pull-right"></i> Log Out</a></li>
                   </ul>
                 </li>
 
@@ -166,7 +124,7 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
           <div class="row tile_count">
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total Members</span>
-              <div class="count">2500</div>
+              <div class="count"><?php echo $gettotalmembers->totalmembers; ?></div>
               <span class="count_bottom"><i class="green">4% </i> From last Week</span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
@@ -176,12 +134,12 @@ $_SESSION['page'] =  basename($_SERVER['PHP_SELF']);
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total Males</span>
-              <div class="count green">2,500</div>
+              <div class="count green"><?php echo $getallmales->numberofmales; ?></div>
               <span class="count_bottom"><i class="green"><i class="fa fa-sort-asc"></i>34% </i> From last Week</span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
               <span class="count_top"><i class="fa fa-user"></i> Total Females</span>
-              <div class="count">4,567</div>
+              <div class="count"><?php echo $getallfemales->numberoffemales; ?></div>
               <span class="count_bottom"><i class="red"><i class="fa fa-sort-desc"></i>12% </i> From last Week</span>
             </div>
             <div class="col-md-2 col-sm-4 col-xs-6 tile_stats_count">
